@@ -1,0 +1,38 @@
+{
+  "doc_type_taxonomy": {
+    "notice": "공지",
+    "assignment": "과제",
+    "scholarship": "장학금",
+    "receipt": "영수증",
+    "place": "장소"
+  },
+
+  "metadata_schema": {
+    "doc_type": "notice | assignment | scholarship | receipt | place",
+    "title": "string | null",
+    "source": "string | null",
+
+    "created_date": "YYYY-MM-DD | null",
+    "event_date": "YYYY-MM-DD | null",
+    "deadline": "YYYY-MM-DD | null",
+    "deadline_bucket": "today | this_week | this_month | null",
+
+    "has_submission": "boolean | null",
+
+    "amount": "number | null",
+    "currency": "KRW | null",
+
+    "location_name": "string | null",
+    "address": "string | null",
+
+    "confidence": "number"
+  },
+
+  "filterable_fields": {
+    "doc_type": "exact match",
+    "deadline_bucket": "today | this_week | this_month | null",
+    "amount": "numeric range",
+    "has_submission": "boolean",
+    "confidence": ">= 0.7"
+  }
+}

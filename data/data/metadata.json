@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "doc_type": "notice | assignment | scholarship | receipt | place",
+    "title": "string | null",
+    "source": "string | null",
+
+    "created_date": "YYYY-MM-DD | null",
+    "event_date": "YYYY-MM-DD | null",
+    "deadline": "YYYY-MM-DD | null",
+    "deadline_bucket": "today | this_week | this_month | null",
+
+    "has_submission": "boolean | null",
+
+    "amount": "number | null",
+    "currency": "KRW | null",
+
+    "location_name": "string | null",
+    "address": "string | null",
+
+    "confidence": "number"
+  }
+}

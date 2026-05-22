@@ -1,0 +1,9 @@
+{
+  "filterable_fields": {
+    "doc_type": "exact match",
+    "deadline_bucket": "today | this_week | this_month | null",
+    "amount": "numeric range",
+    "has_submission": "boolean",
+    "confidence": ">= 0.7"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "doc_type_taxonomy": {
+    "notice": {
+      "ko_name": "공지",
+      "description": "행사, 모집, 안내, 일정 공지 등 일반 알림 문서"
+    },
+    "assignment": {
+      "ko_name": "과제",
+      "description": "제출해야 하는 과제, 보고서, 레포트, 실습 제출 안내"
+    },
+    "scholarship": {
+      "ko_name": "장학금",
+      "description": "장학금 신청, 선발, 지급, 지원금 관련 문서"
+    },
+    "receipt": {
+      "ko_name": "영수증",
+      "description": "결제 내역, 구매 내역, 금액이 포함된 영수증"
+    },
+    "place": {
+      "ko_name": "장소",
+      "description": "가게, 건물, 시설, 위치, 주소, 영업시간 관련 문서"
+    }
+  }
+}

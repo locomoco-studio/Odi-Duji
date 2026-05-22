@@ -1,0 +1,2387 @@
+[
+  {
+    "image_id": "img_001",
+    "file_name": "img_001.JPG",
+
+    "metadata": {
+      "doc_type": "notice",
+      "title": "2026 AI 해커톤 대회",
+      "source": "숙명여자대학교 AI센터",
+      "created_date": null,
+      "event_date": "2026-05-16",
+      "deadline": "2026-05-07",
+      "deadline_bucket": "this_month",
+      "has_submission": true,
+      "amount": 4500000,
+      "currency": "KRW",
+      "location_name": "AWS 역삼 센터 필드 본사 트레이닝룸",
+      "address": null,
+      "confidence": 1.0
+    },
+    "evidence_text": {
+      "doc_type": "[2026 AI 해커톤 참가자 모집 안내]",
+      "title": "2026 AI 해커톤 대회",
+      "source": "숙명여자대학교 AI센터",
+      "event_date": "대회 일시: 2026년 5월 16일(토) 08:00 ~ 21:30",
+      "deadline": "접수 기간: 2026년 4월 30일(목) ~ 5월 7일(목)",
+      "has_submission": "접수 방법: WISE 비교과통합관리시스템 신청",
+      "amount": "상금 총 450만 원",
+      "location_name": "대회 장소: AWS 역삼 센터 필드 본사 트레이닝룸"
+    }
+  },
+
+  {
+    "image_id": "img_002",
+    "file_name": "img_002.JPG",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "금별맥주 김포운양점 영수증",
+      "source": "한강베네치아",
+      "created_date": "2025-11-22",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 79700,
+      "currency": "KRW",
+      "location_name": "한강베네치아",
+      "address": "경기 김포시 김포한강11로 288-5",
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "[매출전표]",
+      "title": "금별맥주 김포 운양점",
+      "source": "한강베네치아",
+      "created_date": "[매출일] 2025-11-22 23:23:26",
+      "amount": "받을 금액 79,700",
+      "location_name": "한강베네치아",
+      "address": "경기 김포시 김포한강11로 288-5 (운양동, 한강베네치아) 107호"
+    }
+  },
+
+  {
+    "image_id": "img_003",
+    "file_name": "img_003.JPG",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "할맥 김포운양역점 영수증",
+      "source": "할맥 김포운양역점",
+      "created_date": "2025-01-30",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 66600,
+      "currency": "KRW",
+      "location_name": "할맥 김포운양역점",
+      "address": "경기 김포시 김포한강11로 310 승문리앤포레 1층 115호, 116호",
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "receipt",
+      "title": "할맥 김포운양역점 영수증",
+      "source": "할맥 김포운양역점",
+      "created_date": "2025-01-30",
+      "amount": "66,600원",
+      "location_name": "상호: 할맥 김포운양역점",
+      "address": "주소: 경기 김포시 김포한강1"
+    }
+  },
+
+  {
+    "image_id": "img_004",
+    "file_name": "img_004.JPG",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "현금 영수증",
+      "source": "로지텍 무소음 무선 마우스, M331, 블랙 현금 영수증",
+      "created_date": "2026-05-17 23:39:10",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 22900,
+      "currency": "KRW",
+      "location_name": null,
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "receipt",
+      "title": "현금 영수증",
+      "source": "상품명: 로지텍 무소음 무선 마우스, M331, 블랙",
+      "created_date": "거래일시: 2026-05-17 23:39:10",
+      "amount": "결제 금액 정보: 22,900원"
+    }
+  },
+
+  {
+    "image_id": "img_005",
+    "file_name": "img_005.HEIC",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "お客様控 일본 노래방 영수증",
+      "source": "ジヤンカラハカタエキ 일본 가라오케",
+      "created_date": "2025-12-18 23:08:35",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 15680,
+      "currency": "JPY",
+      "location_name": "일본 대형 노래방(잔카라) 하카타역 동쪽 출구방면 2호점",
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "receipt",
+      "title": "クレジットカード売上票 お客様控",
+      "source": "ジヤンカラハカタエキチクシグチ2ゴウテン",
+      "created_date": "2025-12-18 23:08:35",
+      "amount": "¥15,680",
+      "location_name": "ジヤンカラハカタエキチクシグチ2ゴウテン"
+    }
+  },
+
+  {
+    "image_id": "img_006",
+    "file_name": "img_006.HEIC",
+
+    "metadata": {
+      "doc_type": "place",
+      "title": "어른이 뮤지컬 난쟁이들",
+      "source": "어른이 뮤지컬 난쟁이들 TODAYCAST",
+      "created_date": "2025-12-27",
+      "event_date": null,
+      "deadline": "2026-03-01",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "플러스씨어터",
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "place",
+      "title": "어른이 뮤지컬 난쟁이들",
+      "source": "어른이 뮤지컬 난쟁이들 TODAYCAST",
+      "created_date": "일 시: 2025년 12월27일(토) 오후 3시00분",
+      "location_name": "장 소: 플러스씨어터"
+    }
+  },
+
+  {
+    "image_id": "img_007",
+    "file_name": "img_007.HEIC",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "어른이 뮤지컬 난쟁이들 티켓",
+      "source": null,
+      "created_date": "2025-10-29 14:12",
+      "event_date": "2025-12-27(토) 3시 00분",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 70000,
+      "currency": "KRW",
+      "location_name": "플러스씨어터",
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "receipt",
+      "title": "어른이 뮤지컬 난쟁이들 티켓",
+      "created_date": "예매일시: 2025-10-29 14:12",
+       "event_date": "일시: 2025-12-27(토) 3시 00분",
+      "amount": "70,000원",
+      "location_name": "장소: 플러스씨어터"
+    }
+  },
+  
+  {
+    "image_id": "img_008",
+    "file_name": "img_008.HEIC",
+
+    "metadata": {
+      "doc_type": "place",
+      "title": "한복입은남자 뮤지컬",
+      "source": null,
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "place",
+      "title": "MUSICAL 한복입은남자"
+    }
+  },
+
+  {
+
+    "image_id": "img_009",
+    "file_name": "img_009.HEIC",
+
+    "metadata": {
+      "doc_type": "receipt",
+      "title": "뮤지컬 한복입은남자 티켓",
+      "source": "충무아트센터, 카카오엔터테인먼트, (주)EMK뮤지컬컴퍼니, NOL 인터파크 App",
+      "created_date": null,
+      "event_date": "일시: 2025-12-31(수) 2시 30분",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 80000,
+      "currency": "KRW",
+      "location_name": "충무아트센터 대극장",
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "receipt",
+      "title": "장영실, 다빈치를 만나다 MUSICAL 한복입은남자 티켓",
+      "source": "충무아트센터, 카카오엔터테인먼트, (주)EMK뮤지컬컴퍼니, NOL 인터파크 App",
+      "event_date": "일시: 2025-12-31(수) 2시 30분",
+      "amount": "A석 80,000원 신용카드 일반",
+      "location_name": "장소: 충무아트센터 대극장"
+      }
+  },
+
+  {
+    "image_id": "img_010",
+    "file_name": "img_010.HEIC",
+
+    "metadata": {
+      "doc_type": "notice",
+      "title": "파견 교환학생 프로그램, 단기 프로그램",
+      "source": "숙명여자대학교",
+      "created_date": null,
+      "event_date": "2026-2학기, 2027-1학기, 2027-2학기, 2026-여름방학, 2026-겨울방학",
+      "deadline": "1월중, 3월초, 7월중, 8월초, 8월말, 10월 말, 11월중, 12월 중, 12월 말, 1월 중, 2월 초, 2월 말, 3월 중, 3월 말, 4월초, 9월중, 9월말, 10월초, 3월말, 3월 초, 9월초, 9월말",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence": 1.0
+    },
+
+    "evidence_text": {
+      "doc_type": "notice",
+      "title": "파견 교환학생 프로그램, 단기 프로그램",  
+      "source": "숙명여자대학교",
+      "event_date": "2026-2학기, 2027-1학기, 2027-2학기, 2026-여름방학, 2026-겨울방학",
+      "deadline": "1월중, 3월초, 7월중, 8월초, 8월말, 10월 말, 11월중, 12월 중, 12월 말, 1월 중, 2월 초, 2월 말, 3월 중, 3월 말, 4월초, 9월중, 9월말, 10월초, 3월말, 3월 초, 9월초, 9월말",
+      "has_submission": "지원서 접수"
+    }
+  },
+
+  {
+    "image_id" : "img_011",
+    "file_name" : "img_011.HEIC",
+
+    "metadata" : {
+      "doc_type" : "notice",    
+      "title": "해외 인턴십 일정 안내",
+      "source": "숙명여자대학교 국제협력팀",
+      "created_date": null,
+      "event_date": "2026-2학기, 2027-1학기, 2027-여름방학~2학기, 2026-겨울방학~2027-1학기",
+      "deadline": "10월, 11월, 2월, 3월, 4월, 5월, 7월, 8월, 9월, 12월",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "해외 인턴십 일정 안내",
+      "source": "국제협력팀",
+      "event_date": "2026-2학기, 2027-1학기, 2027-여름방학~2학기, 2026-겨울방학~2027-1학기",
+      "deadline": "10월, 11월, 2월, 3월, 4월, 5월, 7월, 8월, 9월, 12월",
+      "has_submission": "지원서 접수"
+    }
+  },
+
+  {
+    "image_id" : "img_012",
+    "file_name" : "img_012.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2026 숙명글로벌탐방단",
+      "source": "숙명여자대학교 학생지원센터",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": "future",
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2026 숙명글로벌탐방단",
+      "source": "숙명여자대학교 학생지원센터",
+      "deadline_bucket": "파견기간: 2026년 여름방학 중 최대 9박 10일",
+      "has_submission": "제출서류: 지원서 1부, 공인어학성적증명서 사본(소지자에 한함) 1부"
+    }
+  },
+
+  {
+    "image_id" : "img_013",
+    "file_name" : "img_013.PNG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "[AI센터xNVIDIA] 2026 AI 강연 '모두를 위한' AI 리터러시 아카데미",
+      "source": "숙명여자대학교 AI센터, NVIDIA",
+      "created_date": null,
+      "event_date": "2026-04-08",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "숙명여대 제2캠퍼스, 눈꽃광장, 순헌관 1층 로비, 프라임관 로비, 눈꽃광장홀(실내)",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "[AI센터xNVIDIA] 2026 AI 강연 '모두를 위한' AI 리터러시 아카데미",
+      "source": "숙명여자대학교 AI센터, NVIDIA",
+      "event_date": "2026-04-08 (수) 16:30 ~ 18:30",
+      "has_submission": "신청 방법: WISE 비교과통합관리시스템 신청-모두를 위한 AI리터러시 아카데미 2회차",
+      "location_name": "숙명여대 제2캠퍼스, 눈꽃광장, 순헌관 1층 로비, 프라임관 로비, 눈꽃광장홀(실내)"
+    }
+  },
+
+  {
+    "image_id" : "img_014",
+    "file_name" : "img_014.PNG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "티켓 예매 상세내역",
+      "source": "NOL interpark, mticket.interpark.com",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 70000,
+      "currency": "KRW",
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "receipt",
+      "title": "티켓 예매 상세내역",
+      "source": "NOL interpark, mticket.interpark.com",
+      "amount": "70000원",
+      "location_name": null,
+      "address": null
+    }
+  },
+
+  {
+    "image_id" : "img_015",
+    "file_name" : "img_015.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": null,
+      "source": "소프트웨어학부",
+      "created_date": "2020-05-11",
+      "event_date": null,
+      "deadline": "2020-05-14",
+      "deadline_bucket": "past",
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "명신관 410A",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "source": "소프트웨어학부",
+      "created_date": "2020-05-11(목) 12시",
+      "deadline": "2020-05-14",
+      "location_name": "명신관 410A"
+    }
+  },
+
+  {
+    "image_id" : "img_016",
+    "file_name" : "img_016.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "전공자를 위한 바이브코딩 실전 특강 신청 안내",
+      "source": "SW중심대학사업단, WISE",
+      "created_date": "2024-04-27",
+      "event_date": "2026-05-26",
+      "deadline": "2026-05-29",
+      "deadline_bucket": "future",
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "새힘관 304호",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "전공자를 위한 바이브코딩 실전 특강 신청 안내",
+      "source": "SW중심대학사업단, WISE",
+      "created_date": "2024-04-27",
+      "event_date": "2026-05-26",
+      "deadline": "2026-05-29",
+      "has_submission": "이수조건: 가. 교육 4회 모두 출석, 나. Github에 학습 내용 업로드 후 SOSP(SMU Open Source Sharing Platform)가입, 다. 만족도 조사 완료",
+      "location_name": "새힘관 304호"
+    }
+  },
+
+  {
+    "image_id" : "img_017",
+    "file_name" : "img_017.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "[데이터 직무 필수 역량] SQLD 2주 완성 과정 ZOOM 링크 공유",
+      "source": "SW중심대학사업단",
+      "created_date": "05-08",
+      "event_date": "05-08",
+      "deadline": "05-21",
+      "deadline_bucket": "this_week",
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "ZOOM",
+      "address": null,
+      "confidence" : 1.0
+    },
+    
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "[데이터 직무 필수 역량] SQLD 2주 완성 과정 ZOOM 링크 공유",
+      "source": "SW중심대학사업단",
+      "created_date": "05-08 09:11",
+      "event_date": "05-08 19:30",
+      "deadline": "05-21 21:30",
+      "location_name": "ZOOM"
+    }
+  },
+
+  {
+    "image_id" : "img_018",
+    "file_name" : "img_018.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "자궁경부암 예방접종 할인 행사",
+      "source": "숙명여자대학교 보건의료센터",
+      "created_date": null,
+      "event_date": "05-18",
+      "deadline": "05-13",
+      "deadline_bucket": "past",
+      "has_submission": true,
+      "amount": 150000,
+      "currency": "KRW",
+      "location_name": "순헌관 앞 광장, 교내 보건의료센터 부속의원(순헌관 011호)",
+      "address": null,
+      "confidence" : 1.0
+    },
+    
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "자궁경부암 예방접종 할인 행사-사전예약자 대상 예방접종 할인!!",
+      "source": "숙명여자대학교 보건의료센터",
+      "event_date": "접종기간: 05-18(월)~5/21(목)",
+      "deadline": "사전예약 일시: 05-12(화)~05-13(수) 10:00 ~ 16:00",
+      "has_submission": "사전예약 필수",
+      "amount": "150,000원, 의료공제 비회원 160,000원",
+      "location_name": "사전예약 장소: 순헌관 앞 광장(현장접수만 가능), 접종장소: 교내 보건의료센터 부속의원(순헌관 011호)"
+    }
+  },
+
+  {
+    "image_id" : "img_019",
+    "file_name" : "img_019.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2026 AI보안 기술개발 교육과정",
+      "source": "KISIA 한국정보보호교육원",
+      "created_date": null,
+      "event_date": "2026-07-28, 2026-08-17",
+      "deadline": "2026-06-10",
+      "deadline_bucket": "future",
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "IT벤처타워 서관 16층 한국정보보호교육원",
+      "address": "서울시 송파구 중대로 135",
+      "confidence" : 1.0
+    },
+    
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2026 AI보안 기술개발 교육과정",
+      "source": "KISIA 한국정보보호교육원",
+      "event_date": "프로젝트 기간: 악성코드/네트워크 2026-07-28(월)~2026-10-16(금), 개인정보 2026-08-17(월)~2026-11-06(금)",
+      "deadline": "모집: ~ 2026-06-10(수)",
+      "location_name": "교육장소: IT벤처타워 서관 16층 한국정보보호교육원",
+      "address": "서울시 송파구 중대로 135"
+    }
+  },
+  {
+    "image_id" : "img_020",
+    "file_name" : "img_020.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "AI로 여는 나만의 미래, 삼성청년 SW-AI 아카데미 SSAFY 16기모집",
+      "source": "삼성, 고용노동부, 아이들과미래재단",
+      "created_date": null,
+      "event_date": "2026-07-01",
+      "deadline": "2024-05-11",
+      "deadline_bucket": "future",
+      "has_submission": true,
+      "amount": 1000000,
+      "currency": "KRW",
+      "location_name": "서울, 대전, 광주, 구미, 부울경(부산) 캠퍼스",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "AI로 여는 나만의 미래, 삼성청년 SW-AI 아카데미 SSAFY 16기모집",
+      "source": "삼성이 만든 차별화된 AI커리큘럼, 고용노동부, 아이들과미래재단",
+      "event_date": "2026-07-01~2027-06-01",
+      "deadline": "2024-05-11",
+      "has_submission": "지원 대상: 29세 이하(96년 7월 1일 출생자), 국내외 4년제 대학(학사 이상) 졸업자 및 졸업 예정자(전공무관), 국내 지정 마이스터고 졸업자(학과무관)",
+      "amount": "월 100만원 교육 지원금까지! 최대 140만원 지급 가능 ",
+      "location_name": "교육 장소: 서울, 대전, 광주, 구미, 부울경(부산) 캠퍼스"
+    }
+  },
+
+  {
+    "image_id" : "img_021",
+    "file_name" : "img_021.PNG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2026 국내 최대 규모 대학생 공모전 캠퍼스 특허 CPU Universiade Campus Patent 유니버시아드",
+      "source": "한국발명진흥회, KOFST, FOMEK, 한국중견기업연합회, 지식재산처, nst 국가과학기술연구회, 대한상공회의소, 한국과학기술단체총연합회",
+      "created_date": null,
+      "event_date": "2026-11-19",
+      "deadline": "2026-05-28",
+      "deadline_bucket": "future",
+      "has_submission": true,
+      "amount": null,
+      "currency": "KRW",
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2026 국내 최대 규모 대학생 공모전 캠퍼스 특허 CPU Universiade Campus Patent 유니버시아드",
+      "source": "한국발명진흥회, KOFST, FOMEK, 한국중견기업연합회, 지식재산처, nst 국가과학기술연구회, 대한상공회의소, 한국과학기술단체총연합회",
+      "event_date": "시상식 2026-11-19 (목)",
+      "deadline": "참가신청서 접수 2026-04-03(금)~2026-05-28(목)",
+      "has_submission": "참가자격: 국내 대학(원)생으로, 개인 또는 3인 이내 팀으로 참가 및 지도교수 1인(복수팀 지도 가능) 필요, 진행절차: 신청접수- 대회 홈페이지를 통한 신청서 온라인 제출"
+    }
+  },
+
+  {
+    "image_id" : "img_022",
+    "file_name" : "img_022.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2026-1 중간고사 도서관 개관시간 연장운영 안내",
+      "source": "숙명여자대학교 중앙도서관, SOOKMYUNG WOMEN'S UNIVERSITY LIBRARY",
+      "created_date": null,
+      "event_date": "2026-04-07",
+      "deadline": "2026-04-27",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "중앙도서관 1~5층 자료실, 2층 이경순홀, 1층 신한로비, 5층 휴, 6층 S열람실, 법학전문도서관, 음악도서실, 스터디룸",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2026-1 중간고사 도서관 개관시간 연장운영 안내",
+      "source": "숙명여자대학교 중앙도서관, SOOKMYUNG WOMEN'S UNIVERSITY LIBRARY",
+      "event_date": "2026-04-07(화)",
+      "deadline": "2026-04-27(월)",
+      "location_name": "중앙도서관 1~5층 자료실, 2층 이경순홀, 1층 신한로비, 5층 휴, 6층 S열람실, 법학전문도서관, 음악도서실, 스터디룸"
+    }
+  },
+
+  {
+    "image_id" : "img_023",
+    "file_name" : "img_023.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "[SW중심대학사업단] 딥러닝 기반 자율주행 실습과정",
+      "source": "SW중심대학사업단, 숙명여자대학교",
+      "created_date": null,
+      "event_date": "2026-04-29",
+      "deadline": "2026-04-15",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": 8000,
+      "currency": null,
+      "location_name": "새힘관 304호",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "[SW중심대학사업단] 딥러닝 기반 자율주행 실습과정",
+      "source": "SW중심대학사업단, 숙명여자대학교",
+      "event_date": "일시: 2026-04-29(수), 30(목), 05-06(수), 7(목), 13(수), 14(목), 19:00~21:00 (2h*6회, 3주간 매주 수, 목)",
+      "deadline": "2026-04-15",
+      "has_submission": "이수조건: 가.교육 6회 모두 참석, 나. 자율주행 미니 프로젝트 참여, 다. 만족도 조사 완료(~26.05.15(금), 23:45)",
+      "amount": "숙명여대 비교과 프로그램 마일리지 8000점 제공",
+      "location_name": "장소: 새힘관 304호"
+    }
+  },
+
+  {
+    "image_id" : "img_024",
+    "file_name" : "img_024.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "당일 수업 휴강 공지 및 출결 일괄 출석 처리 안내",
+      "source": "박수현",
+      "created_date": null,
+      "event_date": "26",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "오늘 수업은 따로 휴강 처리하지 않고 주말 중 영상자료 업로드를 통해 보왆겠습니다. 따라서 26일 출결은 일괄로 출석 처리하고, 영상 수강 여부에 대해서는 따로 체크하지 않겠습니다.",
+      "source": "자연어처리와 언어모델 수업 담당교수 박수현입니다.",
+      "event_date": "26일"
+    }
+  },
+  
+  {
+    "image_id" : "img_025",
+    "file_name" : "img_025.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "전자정보 박람회",
+      "source": "숙명여자대학교 중앙도서관",
+      "created_date": null,
+      "event_date": "2026-03-25",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": "KRW",
+      "location_name": "중앙도서관 1층 로비",
+      "address": null,  
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "전자정보 박람회",
+      "source": "숙명여자대학교 중앙도서관",
+      "event_date": "2026-03-25",
+      "has_submission": "참여방법 -행사 당일 안내 데스크에서 응모권 수령 -관심 있는 부스에서 자료 이용에 대한 안내를 듣고, 스탬프 받기 -3개 이상 스탬프를 받은 후, 즉석경품 응모 -즉석경품에 당첨되지 않은 경우, 경품 응모함에 응모",
+      "amount": "선착순 10명! 스타벅스 10,000원권",
+      "location_name": "중앙도서관 1층 로비"
+    }
+  },
+
+  {
+    "image_id" : "img_026",
+    "file_name" : "img_026.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "졸업관련 주요일정",
+      "source": "숙명여대 학사팀",
+      "created_date": "03-19 16:08",
+      "event_date": "08-21",
+      "deadline": "03-30",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"notice",
+      "title": "졸업관련 주요일정",
+      "source": "숙명여대 학사팀",
+      "created_date": "03-19 16:08",
+      "event_date": "08-21",
+      "deadline": "03-30",
+      "has_submission": "1. 졸예자 졸업계획 제출 및 전공정리 2.졸업논문제 사전신청 3.졸업논문제 및 정보인증제 증빙 제출"
+    }
+  },
+
+  {
+    "image_id" : "img_027",
+    "file_name" : "img_027.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "문구 구매 영수증",
+      "source": "알파문구 숙대점, 하나카드, 우드락 5T, 200봉투",
+      "created_date": "2026-03-03",
+      "event_date": "2026-03-03",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 5600,
+      "currency": "KRW",
+      "location_name": "알파문구 숙대점",
+      "address": "서울특별시 용산구 청파로47길 70 ,66-7 B01호(청파동2가, 알파빌딩)",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "receipt",
+      "title": "문구 구매 영수증",
+      "source": "알파문구 숙대점, 하나카드, 우드락 5T, 200봉투",
+      "created_date": "2026-03-03",
+      "event_date": "2026-03-03",
+      "amount": "5,600원",
+      "location_name": "알파문구 숙대점",
+      "address": "서울특별시 용산구 청파로47길 70 ,66-7 B01호(청파동2가, 알파빌딩)"
+    }
+  },
+
+  {
+    "image_id" : "img_028",
+    "file_name" : "img_028.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "하나카드 승인(고객/가맹점)",
+      "source": "디자인을품은인쇄",
+      "created_date": "2026-03-03",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 32000,
+      "currency": "KRW",
+      "location_name": "디자인을품은인쇄",
+      "address": "서울 용산구 청파로47길 100 (청파동)",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"receipt",
+      "title": "하나카드 승인(고객/가맹점)",
+      "source": "디자인을품은인쇄",
+      "created_date": "2026-03-03",
+      "amount": "32,000원",
+      "location_name": "디자인을품은인쇄",
+      "address": "서울 용산구 청파로47길 100 (청파동)"
+    }
+  },
+  
+  {
+    "image_id" : "img_029",
+    "file_name" : "img_029.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "인디게임 평가단 선정 안내",
+      "source": "2025 KOREA INDIEGAME SHOWCASE 운영사무국, 한국콘텐츠진흥원",
+      "created_date": null,
+      "event_date": "2025-12-04",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "인디게임 평가단 선정 안내",
+      "source": "2025 KOREA INDIEGAME SHOWCASE 운영사무국, 한국콘텐츠진흥원",
+      "event_date": "선정 일자: 2025-12-04(목) 평가 시간: 10:00-14:00"
+    }
+  },
+
+  {
+    "image_id" : "img_030",
+    "file_name" : "img_030.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "몰입캠프 참가 지원서 작성 폼",
+      "source": "KAIST, MOU, 경북대학교, 고려대학교, 과학기술연합대학원학교, 광주과학기술원, 부경대학교, 부산대학교, 서울대학교, 성균관대학교, 숙명여자대학교, 연세대학교, 영남대학교, 울산과학기술원, 이화여자대학교, 전남대학교, 전북대학교, 창원대학교, 충남대학교, 충북대학교, 포항공과대학교, 한국예술종합학교, 한밭대학교, 한양대학교",
+      "created_date": null,
+      "event_date": "2024-01-08",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "몰입캠프 참가 지원서 작성 폼",
+      "source": "KAIST, MOU, 경북대학교, 고려대학교, 과학기술연합대학원학교, 광주과학기술원, 부경대학교, 부산대학교, 서울대학교, 성균관대학교, 숙명여자대학교, 연세대학교, 영남대학교, 울산과학기술원, 이화여자대학교, 전남대학교, 전북대학교, 창원대학교, 충남대학교, 충북대학교, 포항공과대학교, 한국예술종합학교, 한밭대학교, 한양대학교",
+      "event_date": "01-08부터 02-08까지",
+      "has_submission": "비원대상 -나이는 2001년생까지 지원 가능합니다."
+    }
+  },
+
+  {
+    "image_id" : "img_031",
+    "file_name" : "img_031.JPG",
+
+    "metadata" : {
+      "doc_type": null,
+      "title": null,
+      "source": null,
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null , 
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : null
+    }
+  },
+
+  {
+    "image_id" : "img_032",
+    "file_name" : "img_032.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "희망하는 직무를 미리 경험해보는 \"직무체험_어쩌다출근\"",
+      "source": "재맞고(대학일자리플러스센터)",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null , 
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "희망하는 직무를 미리 경험해보는 \"직무체험_어쩌다출근\"",
+      "source": "재맞고(대학일자리플러스센터)"
+    }
+  },
+  
+  {
+    "image_id" : "img_033",
+    "file_name" : "img_033.PNG",
+
+    "metadata" : {
+      "doc_type": "assignment",
+      "title": "이공계 프로젝트 학습 일정 및 점검사항 안내",
+      "source": null,
+      "created_date": null,
+      "event_date": "2024-03-15",
+      "deadline": "2024-03-15",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"assignment",
+      "title": "이공계 프로젝트 학습 일정 및 점검사항 안내",
+      "event_date": "2024-03-15",
+      "deadline": "2024-03-15 이공계 프로젝트 학습 신청서 및 계획서 제출",
+      "has_submission": "시기: 계획서 제출~중간 점검, 중간점검~최종 보고서 제출"
+    }
+  },
+
+  {
+    "image_id" : "img_034",
+    "file_name" : "img_034.JPG",
+
+    "metadata" : {
+      "doc_type": "assignment",
+      "title": "2024학년도 3학년 영어독해와 작문 수행평가 계획",
+      "source": null,
+      "created_date": null,
+      "event_date": "2024-04-01",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "assignment",
+      "title": "2024학년도 3학년 영어독해와 작문 1학기 영어 작문 평가(20점) 계획"
+    }
+  },
+
+  {
+    "image_id" : "img_035",
+    "file_name" : "img_035.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2025-하계방학 도서관 개관시간 안내",
+      "source": "숙명여자대학교 중앙도서관, SOOKMYUNG WOMEN'S UNIVERSITY LIBRARY",
+      "created_date": null,
+      "event_date": "2025-06-24",
+      "deadline": "2020-08-22",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "중앙도서관, 법학전문도서관, 음악도서실",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2025-하계방학 도서관 개관시간 안내",
+      "source": "숙명여자대학교 중앙도서관, SOOKMYUNG WOMEN'S UNIVERSITY LIBRARY",
+      "event_date": "2025-06-24(화)",
+      "deadline": "2020-08-22(금)",
+      "location_name": "중앙도서관, 법학전문도서관, 음악도서실"
+    }
+  },
+
+  {
+    "image_id" : "img_036",
+    "file_name" : "img_036.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": null,
+      "source": "kstqb.org",
+      "created_date": null,
+      "event_date": "2025-05-28",
+      "deadline": "2025-05-14",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,   
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "source": "kstqb.org",
+      "event_date": "2025-05-28",
+      "deadline": "2025-05-14"
+    }
+  },
+  
+  {
+    "image_id" : "img_037",
+    "file_name" : "img_037.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "ISTQB, ISTQB 특화",
+      "source": "ISTQB, Mobile App Testing, Automotive Tester",
+      "created_date": "2025-05-12",
+      "event_date": "2025-05-21",
+      "deadline": "2025-05-16",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 154000,
+      "currency": "KRW",
+      "location_name": "삼성역 또는 자양역, 스페이스쉐어 삼성역센터 델피노홀",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "ISTQB, ISTQB 특화",
+      "source": "ISTQB, Mobile App Testing, Automotive Tester",
+      "created_date": "2025-05-12",
+      "event_date": "2025-05-21",
+      "deadline": "2025-05-16",
+      "amount": "시험비용 154,000원",
+      "location_name": "삼성역 또는 자양역, 스페이스쉐어 삼성역센터 델피노홀"
+    }
+  },
+
+  {
+    "image_id" : "img_038",
+    "file_name" : "img_038.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "크래프톤 정글 10기 모집",
+      "source": "크래프톤 정글, 국가과학기술연구회",
+      "created_date": null,
+      "event_date": "2025-07-07",
+      "deadline": "2025-05-01",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "크래프톤 정글 10기 모집",
+      "source": "크래프톤 정글, 국가과학기술연구회",
+      "event_date": "2025-07-07",
+      "deadline": "2025-05-01"
+    }
+  },
+
+  {
+    "image_id" : "img_039",
+    "file_name" : "img_039.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "코딩 자율학습단 14기 모집 공고",
+      "source": "dev_gilbut 광고, 파이썬 · C언어 · Vue.js · 리눅스 · 자바스크립트 · HTML+CSS+ 자바스크립트 · SQL · 스프링부트 · 자바 · 파이썬 데이터 분석",
+      "created_date": null,
+      "event_date": "2025-04-07",
+      "deadline": "2025-04-04",
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,  
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "코딩 자율학습단 14기 모집 공고",
+      "source": "dev_gilbut 광고, 파이썬 · C언어 · Vue.js · 리눅스 · 자바스크립트 · HTML+CSS+ 자바스크립트 · SQL · 스프링부트 · 자바 · 파이썬 데이터 분석",
+      "event_date": "학습기간: 2025-04-07~2025-05-02",
+      "deadline": "모집기간: 2025-03-24~2025-04-04"
+    }
+  },
+
+  {
+    "image_id" : "img_040",
+    "file_name" : "img_040.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "[분당제생병원 진료예약안내]",
+      "source": "대진의료재단 분당제생병원",
+      "created_date": null,
+      "event_date": "2025-03-14",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "본관 2층(엘레베이터 앞) 신경과 외래",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "[분당제생병원 진료예약안내]",
+      "source": "대진의료재단 분당제생병원",
+      "event_date": "예약일: 2025-03-14(금) 예약시간: 오후 03:30~04:00",
+      "location_name": "본관 2층(엘레베이터 앞) 신경과 외래"
+    }
+  },
+  
+  {
+    "image_id" : "img_041",
+    "file_name" : "img_041.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "카카오엔터프라이즈 인턴 지원 공고",
+      "source": "kakaoenterprise x 고용노동부",
+      "created_date": null,
+      "event_date": null,
+      "deadline": "2025-03-19",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 2000000,
+      "currency": "KRW",
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "카카오엔터프라이즈 인턴 지원 공고",
+      "source": "kakaoenterprise x 고용노동부",
+      "deadline": "모집기간 : 2025-03-19(수)까지",
+      "amount": "전액 무료, 훈련 지원금 200만원"
+    }
+  },
+
+  {
+    "image_id" : "img_042",
+    "file_name" : "img_042.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2025 용산구 공공데이터 스마트도시 아이디어 공모전, 졸업자 진로 · 취업 설문조사",
+      "source": "동대문구청, 용산구청, 카카오엔터프라이즈, 고용노동부",
+      "created_date": null,
+      "event_date": null,
+      "deadline": "2025-03-20",
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "동대문구, 용산구",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type": "notice",
+      "title": "2025 용산구 공공데이터 스마트도시 아이디어 공모전, 졸업자 진로 · 취업 설문조사",
+      "source": "동대문구청, 용산구청, 카카오엔터프라이즈, 고용노동부",
+      "deadline": "2025-02-21(금)~2025-03-20(목) 18:00까지",
+      "location_name": "동대문구, 용산구"
+    }
+  },
+
+  {
+    "image_id" : "img_043",
+    "file_name" : "img_043.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "카드결제승인",
+      "source": "예스캔 강남",
+      "created_date": "2025-03-05",
+      "event_date": "2025-03-05",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 31000,
+      "currency": "KRW",
+      "location_name": "예스캔 강남",
+      "address": "서울특별시 서초구 강남대로79길 43, 1층 102호",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "receipt",
+      "title": "카드결제승인",
+      "source": "예스캔 강남",
+      "created_date": "2025-03-05 16:40:12",
+      "event_date": "2025-03-05 16:40:12",
+      "amount": "31,000원",
+      "location_name": "예스캔 강남",
+      "address": "서울특별시 서초구 강남대로79길 43, 1층 102호"
+    }
+  },
+
+  {
+    "image_id" : "img_044",
+    "file_name" : "img_044.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2025-1학기 학부 수강신청 일정",
+      "source": "학교 홈페이지, 숙명포털",
+      "created_date": null,
+      "event_date": "2025-02-11",
+      "deadline": "2025-03-31",
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "2025-1학기 학부 수강신청 일정",
+      "source": "학교 홈페이지, 숙명포털",
+      "event_date": "1차 수강신청 2025-02-11(화) 9시~2025-02-14(금) 17시",
+      "deadline": "수강포기 2025-03-25(화) 10시~ 2025-03-31(월) 24시"
+    }
+  },
+  
+  {
+    "image_id" : "img_045",
+    "file_name" : "img_045.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "문의전화",
+      "source": "무인 출력 시스템",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "문의전화 010-5008-5558",
+      "source": "무인 출력 시스템, 문의 시간, 평일 오전8시~오후10시까지 전화가능, 평일 오후10시~오전 8시까지 문자가능, 주말 및 공휴일 문자가능"
+    }
+  },
+
+  {
+    "image_id" : "img_046",
+    "file_name" : "img_046.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "주간메뉴",
+      "source": "숙명여자대학교, 얼큰육개장+당면사리, 나물비빔밥*계란F, 북어해장국, 스팸김치볶음밥",
+      "created_date": null,
+      "event_date": "12-23, 12-24, 12-25, 12-26, 12-27",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "우리집밥",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"notice",
+      "title": "주간메뉴",
+      "source": "숙명여자대학교, 얼큰육개장+당면사리 잡곡밥 해물완자전*케찹 알감자조림 쑥갓두부무침, 나물비빔밥*계란F 유부장국 핫도그*케찹 동부묵김가루무침 배추김치 크리스마스미니쿠키, 북어해장국 잡곡밥 새송이너비아니조림 건파래볶음 부추양파무침, 스팸김치볶음밥 꼬치어묵국 야채계란찜 모듬튀김 깍두기",
+      "event_date": "12-23(월), 12-24(화), 12-25(수), 12-26(목), 12-27(금)",
+      "location_name": "우리집밥"
+    }
+  },
+
+  {
+    "image_id" : "img_047",
+    "file_name" : "img_047.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "12월 21일 토요일 기말고사 범위 및 장소 안내",
+      "source": "최종원",
+      "created_date": "2024-12-11",
+      "event_date": "2024-12-21",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "명신관 418호 계단강의실, 명신관 423호 계단강의실",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "12월 21일 토요일 기말고사 범위 및 장소 안내",
+      "source": "작성자: 최종원",
+      "created_date": "2024-12-11 20:04:35",
+      "event_date": "2024-12-21 토요일",
+      "location_name": "01반: 명신관 418호 계단강의실 12시~13시 30분, 02반: 명신관 423호 계단강의실 12시~13시 30분"
+    }
+  },
+
+  {
+    "image_id" : "img_048",
+    "file_name" : "img_048.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "크래프톤 정글 8기 모집",
+      "source": "크래프톤 정글",
+      "created_date": "2024-12-16",
+      "event_date": "2025-03-10~2025-07-31",
+      "deadline": "2025-01-16",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "크래프톤 정글 용인 캠퍼스",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "5개월 합숙으로 만드는 평생가는 SW기본기 - 크래프톤 정글 8기 모집",
+      "source": "크래프톤 정글",
+      "created_date": "지원서 작성기간 2024-12-16(월)~",
+      "event_date": "합숙기간 2025-03-10~2025-07-31",
+      "deadline": "~2025-01-16(목)",
+      "has_submission": "크래프톤 정글 홈페이지에서 지원서 작성",
+      "location_name": "교육(합숙)장소: 크래프톤 정글 용인 캠퍼스"
+    }
+  },
+  
+  {
+    "image_id" : "img_049",
+    "file_name" : "img_049.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "2024 천원의아침밥 만족도 설문조사",
+      "source": "농림축산식품부, EPIS 농림수산식품교육문화정보원",
+      "created_date": null,
+      "event_date": "2024-11-06",
+      "deadline": "2024-11-26",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": 1000,
+      "currency": "KRW",
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "2024 천원의아침밥 만족도 설문조사",
+      "source": "농림축산식품부, EPIS 농림수산식품교육문화정보원, 스타벅스 ICE아메리카노 쿠폰 50명 랜덤 증정",
+      "event_date": "2024-11-06(수)",
+      "deadline": "2024-11-26(화)",
+      "has_submission": "조사방법: 온라인 설문조사(포스터 QR코드를 통해 접속)",
+      "amount": "1000원"
+    }
+  },
+
+  {
+    "image_id" : "img_050",
+    "file_name" : "img_050.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "현대자동차그룹 소프티어 부트캠프 5기 모집",
+      "source": "현대자동차그룹, HMG SOFTEER BOOTCAMP 2025, HYUNDAI, KN",
+      "created_date": null,
+      "event_date": null,
+      "deadline": "2024-11-13",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "현대자동차그룹 소프티어 부트캠프 5기 모집",
+      "source": "현대자동차그룹, HMG SOFTEER BOOTCAMP 2025, HYUNDAI, KN",
+      "deadline": "2024-11-13(수) 14:00"
+    }
+  },
+
+  {
+    "image_id" : "img_051",
+    "file_name" : "img_051.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "삼성청년 SW아카데미 13기 모집 공고",
+      "source": "고용노동부, SAMSUNG, 아이들과미래재단, KIDS&FUTURE FOUNDATION",
+      "created_date": "10-21",
+      "event_date": "2025-01-01~2025-12-01",
+      "deadline": "11-04",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": 1000000,
+      "currency": "KRW",
+      "location_name": "서울, 대전, 광주, 구미, 부울경(부산) 캠퍼스",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "삼성청년 SW아카데미 13기 모집 공고",
+      "source": "고용노동부, SAMSUNG, 아이들과미래재단, KIDS&FUTURE FOUNDATION",
+      "created_date": "10-21",
+      "event_date": "2025-01-01~2025-12-01",
+      "deadline": "11-04",
+      "has_submission": "지원대상 -29세 이하(95년 1월 1일 이후 출생자) -국내외 4년제 대학(학사 이상)졸업자 및 졸업 예정자(전공무관), 국내 지정 마이스터고 졸업자 및 졸업예정자(학과무관)",
+      "amount": "월 100만원 교육 지원금까지!",
+      "location_name": "교육장소: 서울, 대전, 광주, 구미, 부울경(부산) 캠퍼스"
+    }
+  },
+
+  {
+    "image_id" : "img_052",
+    "file_name" : "img_052.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "우아한테크코스 2025신입생모집",
+      "source": "우아한형제들 우아한테크코스",
+      "created_date": null,
+      "event_date": "2024-09-25",
+      "deadline": "2024-10-11",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "온라인 유튜브 우아한테크 라이브",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"notice",
+      "title": "우아한테크코스 2025신입생모집",
+      "source": "우아한형제들 우아한테크코스",
+      "event_date": "2024-09-25",
+      "deadline": "2024-10-11",
+      "has_submission": "지원방법: 우아한테크코스(woowacourse.io)에서 지원하기",
+      "location_name": "입학설명회: 2024-09-25(수) 오후 7시 -온라인 유튜브 우아한테크 라이브"
+    }
+  },
+  
+  {
+    "image_id" : "img_053",
+    "file_name" : "img_053.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": null,
+      "source": null,
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice"
+    }
+  },
+
+  {
+    "image_id" : "img_054",
+    "file_name" : "img_054.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "반납 QR",
+      "source": "소프트웨어학부",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "소프트웨어학부 과방(명신관 311A)",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "반납 QR",
+      "source": "소프트웨어학부",
+      "location_name": "소프트웨어학부 과방(명신관 311A)"
+    }
+  },
+
+  {
+    "image_id" : "img_055",
+    "file_name" : "img_055.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "Top 탑토익학원 오전 정규반 1개월 완성 한 달 TOP TOBCAcade",
+      "source": "탑토익학원",
+      "created_date": null,
+      "event_date": "2월, 8월",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": "340000",
+      "currency": "KRW",
+      "location_name": "탑토익학원",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "Top 탑토익학원 오전 정규반 1개월 완성 한 달 TOP TOBCAcade",
+      "source": "탑토익학원",
+      "event_date": "2월, 8월 스케줄",
+      "amount": "34만원",
+      "location_name": "탑토익학원"
+    }
+  },
+
+  {
+    "image_id" : "img_056",
+    "file_name" : "img_056.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "중간고사 및 기말고사 일정 (중간고사: 4/23(목), 기말고사: 6/11(목))",
+      "source": "이기용",
+      "created_date": "2026-03-01",
+      "event_date": "2026-04-23",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "중간고사 및 기말고사 일정 (중간고사: 4/23(목), 기말고사: 6/11(목))",
+      "source": "이기용",
+      "created_date": "작성일: 2026-03-01 22:49:42",
+      "event_date": "기말고사: 2026-04-23(목) 오후3:00~4:15"
+    }
+  },
+  
+  {
+    "image_id" : "img_057",
+    "file_name" : "img_057.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "공지사항",
+      "source": null,
+      "created_date": null,
+      "event_date": "2024-04-23",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "명신관 701호, 명신관 601호, 명신관 602호",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "공지사항",
+      "event_date": "2024-04-23(목) 15:00~16:15",
+      "location_name": "장소 -명신관 701호, -명신관 601호, -명신관 602호"
+    }
+  },
+
+  {
+    "image_id" : "img_058",
+    "file_name" : "img_058.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "5/5(화) (어린이날) 수업 방식 공지 (명신관 701호 강의 대신 Zoom 강의 진행)",
+      "source": "이기용",
+      "created_date": "2026-05-04",
+      "event_date": "2026-05-05",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "명신관 701호, Zoom",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "5/5(화) (어린이날) 수업 방식 공지 (명신관 701호 강의 대신 Zoom 강의 진행)",
+      "source": "이기용",
+      "created_date": "2026-05-04 16:53:45",
+      "event_date": "2026-05-05(화) 어린이날",
+      "location_name": "수업 장소: 명신관 701호, Zoom"
+    }
+  },
+
+  {
+    "image_id" : "img_059",
+    "file_name" : "img_059.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "한국IT서비스학회 2026 춘계학술대회",
+      "source": "한국과학기술회관 국제회의장, 순천향대학교 최재원 교수",
+      "created_date": null,
+      "event_date": "2026-05-28",
+      "deadline": "2026-05-22",
+      "deadline_bucket": "this_week",
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"notice",
+      "title": "한국IT서비스학회 2026 춘계학술대회",
+      "source": "한국과학기술회관 국제회의장, 순천향대학교 최재원 교수",
+      "event_date": "2026-05-28",
+      "deadline": "2026-05-22",
+      "deadline_bucket": "this_week"
+    }
+  },
+
+  {
+    "image_id" : "img_060",
+    "file_name" : "img_060.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "3월 4일(수) 휴강 및 보강 안내",
+      "source": "서보밀",
+      "created_date": "2026-02-13",
+      "event_date": "2026-03-04",
+      "deadline": "2026-03-09",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"notice",
+      "title": "3월 4일(수) 휴강 및 보강 안내",
+      "source": "서보밀",
+      "created_date": "작성일: 2026-02-13 16:25:47",
+      "event_date": "휴강일: 2026-03-04(수)",
+      "deadline": "영상 시청 기간: 2026-03-03(화)~2026-03-09(월)"
+    }
+  },
+  
+  {
+    "image_id" : "img_061",
+    "file_name" : "img_061.JPG",
+
+    "metadata" : {
+      "doc_type": "assignment",
+      "title": "제안서(Full) 제출 (~5/24) 과제",
+      "source": null,
+      "created_date": "2026-05-11",
+      "event_date": null,
+      "deadline": "2026-05-25",
+      "deadline_bucket": "future",
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "assignment",
+      "title": "제안서(Full) 제출 (~5/24) 과제",
+      "created_date": "최초 등록 일시 2026-05-11 14:03",
+      "deadline": "종료 일시: 2026-05-25 00:00",
+      "deadline_bucket": "종료일시: 2026-05-25 00:00 마감까지 남은 기한 5일 23시간"
+    }
+  },
+
+  {
+    "image_id" : "img_062",
+    "file_name" : "img_062.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "[자연어처리] 금일 수업 공지 (휴강 관련)",
+      "source": "박수현",
+      "created_date": "03-26",
+      "event_date": "03-26",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "[자연어처리] 금일 수업 공지 (휴강 관련)",
+      "source": "박수현",
+      "created_date": "03-26",
+      "event_date": "따라서 26일 출결은 일괄로 출석 처리하고, 영상 수강 여부에 대해서는 따로 체크하지 않겠습니다."
+    }
+  },
+
+  {
+    "image_id" : "img_063",
+    "file_name" : "img_063.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "오버워치 챔피언스 시리즈 코리아, OWCS Korea - WEEK2 DAY2",
+      "source": "티켓링크, 블리자드, WDG",
+      "created_date": null,
+      "event_date": "2024-03-09",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "WDG E스포츠 스튜디오",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "receipt",
+      "title": "오버워치 챔피언스 시리즈 코리아, OWCS Korea - WEEK2 DAY2",
+      "source": "티켓링크, 블리자드, WDG",
+      "event_date": "일시: 2024-03-09(토) 17:00",
+      "location_name": "장소: WDG E스포츠 스튜디오"
+    }
+  },
+
+  {
+    "image_id" : "img_064",
+    "file_name" : "img_064.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "Samsung BILZZARD",
+      "source": "WILLOR, IILLES, Samsung BILZZARD",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "Samsung BILZZARD",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "Samsung BILZZARD",
+      "source": "WILLOR, IILLES, Samsung BILZZARD",
+      "location_name": "Samsung BILZZARD"
+    }
+  },
+  
+  {
+    "image_id" : "img_065",
+    "file_name" : "img_065.JPG",
+
+    "metadata" : {
+      "doc_type": "notice",
+      "title": "제3회 코위크 아카데미",
+      "source": "계명대학교, KEIMYUNG ART CENTER",
+      "created_date": null,
+      "event_date": "2024-07-01",
+      "deadline": "2024-07-05",
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "계명대학교 성서캠퍼스, KEIMYUNG ART CENTER",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "notice",
+      "title": "제3회 코위크 아카데미",
+      "source": "계명대학교, KEIMYUNG ART CENTER",
+      "event_date": "2024-07-01(월)",
+      "deadline": "2024-07-05(금)",
+      "location_name": "계명대학교 성서캠퍼스, KEIMYUNG ART CENTER"
+    }
+  },
+
+  {
+    "image_id" : "img_066",
+    "file_name" : "img_066.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "PYCON KOREA 2024",
+      "source": "PYCON KOREA, 정보통신산업진흥원, 경기관광공사",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "컨벤션 홀2",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "PYCON KOREA 2024",
+      "source": "PYCON KOREA, 정보통신산업진흥원, 경기관광공사",
+      "location_name": "컨벤션 홀2"
+    }
+  },
+
+  {
+    "image_id" : "img_067",
+    "file_name" : "img_067.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "재미있는 일상 플랫폼 GS25",
+      "source": "GS25숙대학생회관점",
+      "created_date": "2026-05-20",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 2500,
+      "currency": "KRW",
+      "location_name": "GS25숙대학생회관점, 학생회관 109호",
+      "address": "서울 용산구 청파로47길 100, 학생회관 109호",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "receipt",
+      "title": "재미있는 일상 플랫폼 GS25",
+      "source": "GS25숙대학생회관점",
+      "created_date": "2026-05-20 16:11:26",
+      "amount": "2,500원",
+      "location_name": "GS25숙대학생회관점, 학생회관 109호",
+      "address": "매장: 서울 용산구 청파로47길 100, 학생회관 109호"
+    }
+  },
+
+  {
+    "image_id" : "img_068",
+    "file_name" : "img_068.JPG",
+
+    "metadata" : {
+      "doc_type": "receipt",
+      "title": "국민가게, 다이소",
+      "source": "(주) 아성다이소 구의역점",
+      "created_date": "2026-05-21",
+      "event_date": "2026-05-21",
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": 1000,
+      "currency": "KRW",
+      "location_name": "구의역점",
+      "address": "서울특별시 광진구 아차산로 378 (자양동)",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "receipt",
+      "title": "국민가게, 다이소",
+      "source": "(주) 아성다이소 구의역점",
+      "created_date": "2026-05-21 18:42:13",
+      "event_date": "2026-05-21 18:42:13",
+      "amount": "1,000원",
+      "location_name": "구의역점",
+      "address": "매장: 서울특별시 광진구 아차산로 378 (자양동)"
+    }
+  },
+  
+  {
+    "image_id" : "img_069",
+    "file_name" : "img_069.PNG",
+
+    "metadata" : {
+      "doc_type": "scholarship",
+      "title": "2026학년도 1학기 숙명여대 경상대학장학금 신청 공고",
+      "source": "숙명여자대학교 경상대학",
+      "created_date": "2025-11-19",
+      "event_date": null,
+      "deadline": "2025-11-21",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": 1800000,
+      "currency": "KRW",
+      "location_name": "소속 학부사무실",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"scholarship",
+      "title": "2026학년도 1학기 숙명여대 경상대학장학금 신청 공고",
+      "source": "숙명여자대학교 경상대학",
+      "created_date": "2025-11-19 09:47:41",
+      "deadline": "제출 기한: 2025-11-21 (금) 12:00까지",
+      "has_submission": "제출서류: 신청서(학부사무실 비치) 및 가정형편을 입증할 증빙서류",
+      "amount": "180만원",
+      "location_name": "소속 학부사무실"
+    }
+  },
+
+  {
+    "image_id" : "img_070",
+    "file_name" : "img_070.PNG",
+
+    "metadata" : {
+      "doc_type": "scholarship",
+      "title": "학생처장실 행정조교(장학금) 모집 공고",
+      "source": "학생지원센터",
+      "created_date": "2019-08-22",
+      "event_date": "2019-09-01",
+      "deadline": "2020-08-31",
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "학생회관 305호",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"scholarship",
+      "title": "[일반] [학생지원센터] 학생처 행정조교(장학금) 모집",
+      "source": "학생지원센터",
+      "created_date": "2019-08-22 14:09:29",
+      "event_date": "임용기간: 2019-09-01~",
+      "deadline": "~2020-08-31",
+      "has_submission": "제출서류 및 지원 방법: 이력서(자유양식) 이메일 제출 <welfare@sookmyung.ac.kr>",
+      "location_name": "문의: 학생지원센터 학생회관 305호"
+    }
+  },
+
+  {
+    "image_id" : "img_071",
+    "file_name" : "img_071.JPG",
+
+    "metadata" : {
+      "doc_type": "scholarship",
+      "title": "장학금 설명회, 그룹 상담 프로그램, 개별심층상담",
+      "source": "커뮤니케이션팀, 한국장학재단",
+      "created_date": null,
+      "event_date": "2019-05-15",
+      "deadline": "2019-05-16",
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "프라임관 104호, 눈꽃광장홀",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"scholarship",
+      "title": "장학금 설명회, 그룹 상담 프로그램, 개별심층상담",
+      "source": "커뮤니케이션팀, 한국장학재단",
+      "event_date": "일시: 2019-05-15 12:00~13:00",
+      "deadline": "일시: 2019-05-16 12:00~13:00",
+      "location_name": "-장소:프라임관 104호, -장소:눈꽃광장홀"
+    }
+  },
+
+  {
+    "image_id" : "img_072",
+    "file_name" : "img_072.PNG",
+
+    "metadata" : {
+      "doc_type": "scholarship",
+      "title": "[홍보] [글로벌사회교육원] 조교(장학금) 모집 안내 (0)",
+      "source": "글로벌사회교육원",
+      "created_date": "2018-05-21",
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": true,
+      "amount": null,
+      "currency": null,
+      "location_name": "사회교육관 3층",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "scholarship",
+      "title": "[홍보] [글로벌사회교육원] 조교(장학금) 모집 안내",
+      "source": "근무내용: 글로벌사회교육원 원장님 비서 업무",
+      "created_date": "2018-05-21 15:24:45",
+      "location_name": "근무장소: 사회교육관 3층"
+    }
+  },
+  
+  {
+    "image_id" : "img_073",
+    "file_name" : "img_073.JPG",
+
+    "metadata" : {
+      "doc_type": "scholarship",
+      "title": "숙명여자대학교 2캠퍼스",
+      "source": "숙명여자대학교, SOOKMYUNG WOMEN'S UNIVERSITY",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "scholarship",
+      "title": "숙명여자대학교 2캠퍼스",
+      "source": "숙명여자대학교, SOOKMYUNG WOMEN'S UNIVERSITY"
+    }
+  },
+
+  {
+    "image_id" : "img_074",
+    "file_name" : "img_074.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "CANAL CITY HAKATA 하카타 캐널시티",
+      "source": "CANAL CITY HAKATA",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "CANAL CITY HAKATA",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"place",
+      "title": "CANAL CITY HAKATA 하카타 캐널시티",
+      "source": "CANAL CITY HAKATA",
+      "location_name": "CANAL CITY HAKATA"
+    }
+  },
+
+  {
+    "image_id" : "img_075",
+    "file_name" : "img_075.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "일본 서심당 마사지",
+      "source": "舒心堂",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "舒心堂, 2F",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "舒心堂, マッサー, マッサージ, リラクビーション",
+      "source": "舒心堂",
+      "location_name": "舒心堂, 2F"
+    }
+  },
+
+  {
+    "image_id" : "img_076",
+    "file_name" : "img_076.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "일본 패밀리마트",
+      "source": "편의점",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "ファミマ",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"place",
+      "title": "ファミマ大賞, ご予約, 承り中",
+      "source": "ファミマ",
+      "location_name": "ファミマ"
+    }
+  },
+  
+  {
+    "image_id" : "img_077",
+    "file_name" : "img_077.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "하카타역",
+      "source": "HAKATA STATION",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "HAKATA STATION",
+      "source": "HAKATA STATION"
+    }
+  },
+
+  {
+    "image_id" : "img_078",
+    "file_name" : "img_078.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "하카타 한큐 백화점",
+      "source": "FUKUOKA",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "T:JOY CINEMA, Nintendo, FUKUOKA",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"place",
+      "title": "阪急",
+      "source": "FUKUOKA",
+      "location_name": "T:JOY CINEMA, Nintendo, FUKUOKA"
+    }
+  },
+
+  {
+    "image_id" : "img_079",
+    "file_name" : "img_079.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "신흥시장",
+      "source": "HAEBANGCHON 해방촌",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": "신흥시장, HAEBANGCHON",
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "1953 신흥시장",
+      "source": "HAEBANGCHON 해방촌",
+      "location_name": "신흥시장, HAEBANGCHON"
+    }
+  },
+
+  {
+    "image_id" : "img_080",
+    "file_name" : "img_080.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "논산",
+      "source": null,
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": null,
+      "amount": null,
+      "currency": null,
+      "location_name": null,
+      "address": null,
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" :"place",
+      "title": "논산"
+    }
+  },
+  
+  {
+    "image_id" : "img_081",
+    "file_name" : "img_081.JPG",
+
+    "metadata" : {
+      "doc_type": "place",
+      "title": "인왕산정상",
+      "source": "숙명여자대학교 창학 120주년",
+      "created_date": null,
+      "event_date": null,
+      "deadline": null,
+      "deadline_bucket": null,
+      "has_submission": false,
+      "amount": null,
+      "currency": null,
+      "location_name": "인왕산정상 338.2m",
+      "address": "종로구",
+      "confidence" : 1.0
+    },
+
+    "evidence_text" : {
+      "doc_type" : "place",
+      "title": "인왕산정상",
+      "source": "숙명여자대학교 창학 120주년",
+      "location_name": "인왕산정상 338.2m",
+      "address": "종로구"
+    }
+  }
+]
