@@ -4,13 +4,13 @@ import sqlite3
 from datetime import datetime
 from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware # 🚀 추가된 부분: CORS 미들웨어 임포트
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 
 app = FastAPI(title="AI Pipeline Backend #2")
 
-# 🚀 추가된 부분: CORS 설정 (프론트엔드 통신 에러 해결)
+# 🚀 [1번 반영] CORS 설정 (프론트엔드 통신 에러 해결)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -165,7 +165,7 @@ def generate_answer(capture_id: int, user_question: str):
     """
     
     payload = {
-        "model": solar_model,  # .env의 지침에 따라 'solar-pro'가 주입됩니다.
+        "model": solar_model,  
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1
     }
@@ -217,7 +217,6 @@ def unified_query(user_question: str):
     if not search_results:
         print(f"[Query Pipeline] 최종 검색 실패. DB 내 관련 문서 없음.")
         return {
-            "user_question": user_question,
             "answer": "죄송합니다. 관련된 문서 정보가 데이터베이스에 존재하지 않습니다. 다른 키워드로 검색해 보시겠어요?",
             "results": []  # 프론트엔드가 크래시 나지 않도록 빈 리스트 구조 유지
         }
@@ -225,11 +224,17 @@ def unified_query(user_question: str):
     # 검색된 결과 중 가장 상단(최신순 혹은 매칭 점수가 높은) 문서의 ID 추출
     best_match_id = search_results[0]["capture_id"]
     
-    # Upstage Solar LLM 답변 생성 함수 호출
-    ai_response = generate_answer(capture_id=best_match_id, user_question=user_question)
+    # 🚀 [3번 반영] 예외를 캐치하여 UI가 뻗지 않도록 안전한 기본값 반환
+    try:
+        ai_response = generate_answer(capture_id=best_match_id, user_question=user_question)
+        final_answer = ai_response["answer"]
+    except HTTPException as e:
+        final_answer = f"시스템 안내: {e.detail}"
+    except Exception as e:
+        final_answer = f"내부 오류가 발생했습니다: {str(e)}"
     
     # 프론트엔드 UI(card.js) 렌더링 규격에 맞춰 복합 객체 형태로 최종 반환
     return {
-        "answer": ai_response["answer"],
+        "answer": final_answer,
         "results": search_results
     }
