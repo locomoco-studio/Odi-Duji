@@ -1,15 +1,3 @@
-// APP.JS
-// 전체 흐름을 연결하는 컨트롤타워
-
-
-// - 페이지 로드 시 초기화
-// - upload.js / search.js / card.js 연결
-// - 각 단계 상태 관리
-//   (idle → uploading → indexed → searching → result)
-
-
-
-
 // =============================================
 // APP.JS
 // 전체 흐름을 연결하는 컨트롤타워

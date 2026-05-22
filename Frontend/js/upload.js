@@ -1,16 +1,3 @@
-// UPLOAD.JS
-// 업로드 관련 로직
-
-
-// - 파일 선택 이벤트 처리
-// - drag & drop 이벤트 처리
-// - Dev D webhook으로 이미지 전송
-// - 응답 받아서 상태 배지 업데이트
-//   (처리중 → 완료 or 실패)
-
-
-
-
 // =============================================
 // UPLOAD.JS
 // 업로드 관련 로직
@@ -86,21 +73,46 @@ function validateFile(file) {
 
 
 // =============================================
-// 파일 목록 UI 업데이트
+// 파일 목록 썸네일 그리드 UI
 // =============================================
 
 /**
- * 업로드된 파일 이름을 파일 목록에 추가
+ * 파일을 썸네일 카드로 파일 목록에 추가
+ * FileReader로 이미지 미리보기 생성
  * @param {File} file
+ * @returns {HTMLElement} li 요소 (상태 업데이트용)
  */
-function addFileListItem(file) {
+function addThumbnailItem(file) {
   const fileList = document.getElementById('file-list');
-  const li       = document.createElement('li');
-  li.className   = 'file-list__item';
-  li.textContent = file.name;
+ 
+  const li = document.createElement('li');
+  li.className = 'file-list__item file-list__item--loading';
+ 
+  // 썸네일 이미지
+  const img = document.createElement('img');
+  img.className = 'file-list__thumb';
+  img.alt = file.name;
+ 
+  // 파일명 오버레이
+  const name = document.createElement('span');
+  name.className = 'file-list__name';
+  name.textContent = file.name;
+ 
+  li.appendChild(img);
+  li.appendChild(name);
   fileList.appendChild(li);
+ 
+  // FileReader로 로컬 이미지 미리보기 생성
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    img.src = e.target.result;
+    li.classList.remove('file-list__item--loading');
+  };
+  reader.readAsDataURL(file);
+ 
+  return li;
 }
-
+ 
 /**
  * 파일 목록 초기화
  */
@@ -115,6 +127,7 @@ function clearFileList() {
 
 /**
  * 파일 배열을 순서대로 upload webhook으로 전송
+ * 각 파일마다 썸네일 먼저 그리고, 완료/실패 배지 업데이트
  * @param {File[]} files
  */
 async function uploadFiles(files) {
@@ -142,25 +155,31 @@ async function uploadFiles(files) {
       continue;
     }
 
-    // 파일 목록 UI에 추가
-    addFileListItem(file);
-
+    // 썸네일 먼저 화면에 추가 (loading 상태)
+    const li = addThumbnailItem(file);
+ 
     // FormData로 감싸서 webhook에 POST
     try {
       const formData = new FormData();
       formData.append('file', file);
-
+ 
       const response = await fetch(UPLOAD_WEBHOOK_URL, {
         method: 'POST',
         body: formData,
       });
-
+ 
       if (!response.ok) {
         throw new Error(`서버 오류: ${response.status}`);
       }
-
+ 
+      // 완료 배지 표시
+      li.classList.add('file-list__item--done');
+ 
     } catch (error) {
       console.error(`[upload.js] 업로드 실패: ${file.name}`, error);
+ 
+      // 실패 배지 표시
+      li.classList.add('file-list__item--error');
       hasError = true;
     }
   }
