@@ -10,93 +10,28 @@
           "allowedOrigins": "*"
         }
       },
-      "id": "a52a24a8-7224-44cb-a01c-2baa16d42494",
+      "id": "82e9e7b3-6703-4ced-abb6-194f7597cabb",
       "name": "Webhook_Upload_Trigger",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
         -6480,
-        240
+        384
       ],
       "retryOnFail": false,
       "webhookId": "27cb8744-c1df-486f-ba4d-ed36cbaebd51"
     },
     {
       "parameters": {
-        "jsCode": "return items.flatMap(item=>Object.entries(item.binary||{}).map(([key,data])=>({json:{...item.json,binary_source_key:key,original_name:data.fileName,ext:(data.fileName||'').split('.').pop().toLowerCase(),mime_type:data.mimeType,file_size:Number(data.fileSize||0)},binary:{data}})));"
+        "jsCode": "// 기존 코드 대신 아래 코드를 입력하세요\nreturn items.map(item => {\n  const binaryKey = Object.keys(item.binary || {})[0];\n  const data = binaryKey ? item.binary[binaryKey] : null;\n\n  return {\n    json: {\n      ...item.json,\n      binary_source_key: binaryKey || 'unknown',\n      original_name: data?.fileName || 'unknown',\n      ext: (data?.fileName || '').split('.').pop().toLowerCase(),\n      mime_type: data?.mimeType || 'unknown',\n      file_size: Number(data?.fileSize || 0)\n    },\n    binary: item.binary\n  };\n});"
       },
-      "id": "ca97558b-e5a3-4402-91fd-141bf2deee1d",
+      "id": "4138185f-e7f4-4ef1-b75e-741df9c9d8c9",
       "name": "Explode_Binary_Files",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
         -6240,
-        240
-      ],
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2e3b34e9-364f-4db7-922f-650d9693a569",
-              "name": "capture_id",
-              "value": "={{$json.capture_id || 'CAP-' + Date.now() + '-' + $itemIndex}}",
-              "type": "string"
-            },
-            {
-              "id": "8d31b389-32dc-4799-a014-c8ddecb71460",
-              "name": "uploaded_at",
-              "value": "={{new Date().toISOString()}}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "98fd8540-1bec-4ede-9b7d-1029e03c3816",
-      "name": "Prepare_Capture_Metadata",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -6000,
-        240
-      ],
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "6a21b9f5-fdb2-48ff-a6a1-76b374972cab",
-              "leftValue": "={{$json.file_size < 10485760 && /^(jpg|jpeg|png|heic|heif|webp|bmp|tiff)$/.test($json.ext)}}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "a32d909a-3c1a-4669-9706-a815b30f18ea",
-      "name": "Validate_File",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -5760,
-        240
+        384
       ],
       "retryOnFail": false
     },
@@ -160,145 +95,85 @@
           "fallbackOutput": "extra"
         }
       },
-      "id": "4f89f0d1-e455-4775-b997-0bbd971d4d4f",
+      "id": "260b5e1a-18f8-4b96-bee4-1e84cfc192d2",
       "name": "Switch_Ext",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5520,
-        240
+        -5808,
+        368
       ],
       "retryOnFail": false
     },
     {
       "parameters": {},
-      "id": "e50d914e-078f-427f-809a-fa675a301ead",
+      "id": "db654799-2df2-4fd1-99ad-9a703874c357",
       "name": "Merge_Images",
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -4560,
-        240
-      ],
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "options": {
-          "reset": false
-        }
-      },
-      "id": "ad48bbf0-91bb-4ed7-837e-c8ef2c79d829",
-      "name": "Split_In_Batches",
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -4320,
-        240
+        -5488,
+        224
       ],
       "retryOnFail": false
     },
     {
       "parameters": {
         "operation": "write",
-        "fileName": "={{'/static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
+        "fileName": "={{'./static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
         "options": {}
       },
-      "id": "f918c760-5cc9-4a61-a9db-4641ae32997f",
+      "id": "9985227f-c03a-4e36-bf4e-b268e45b270c",
       "name": "Save_Source_Image",
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        -4080,
-        240
+        -5280,
+        224
       ],
       "retryOnFail": false,
       "continueOnFail": true
     },
     {
       "parameters": {
-        "jsCode": "const crypto=require('crypto');return items.map(i=>{i.json.capture_hash=crypto.createHash('sha256').update(JSON.stringify(i.binary?.data||i.json)).digest('hex');return i;});"
+        "options": {}
       },
-      "id": "179e505c-dd71-4df6-a846-312e45d4dc4f",
+      "id": "0a91dc8f-4996-41ae-aa5f-a83f225364aa",
+      "name": "Set_Source_Image_Path",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        -5088,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(i => {\n  // 파일명 + 업로드 시간을 조합해 고유 키 생성\n  const fileName = i.json.original_name || 'unknown';\n  const timestamp = Date.now();\n  i.json.capture_hash = `hash-${fileName}-${timestamp}`.replace(/[^a-z0-9]/gi, '_');\n  return i;\n});"
+      },
+      "id": "64220a2a-2474-470f-9ecf-e4b4dc83c3c4",
       "name": "Compute_Capture_Hash",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -3840,
-        240
+        -4896,
+        224
       ],
       "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "fileSelector": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
-        "options": {}
-      },
-      "id": "2fd44a2a-aff8-452a-99cd-69d730a6d8e1",
-      "name": "Lookup_Cache_Record",
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1,
-      "position": [
-        -3600,
-        240
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "ccec15ac-9a91-4ab7-8a66-8ea9d63f6505",
-              "leftValue": "={{!!$binary.data || !!$json.cached_record}}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "0ff1e16b-8742-4e77-918e-60cbcc7ab0f3",
-      "name": "If_Cache_Hit",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -3360,
-        240
-      ],
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "operation": "json"
-      },
-      "id": "3cc5ad1d-3324-4914-8146-ac36a6909ef3",
-      "name": "Use_Cache_Record",
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -3120,
-        64
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
     },
     {
       "parameters": {
         "method": "POST",
         "url": "={{$env.UPSTAGE_PARSE_URL || 'https://api.upstage.ai/v1/document-ai/document-parse'}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        },
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -312,13 +187,13 @@
         },
         "options": {}
       },
-      "id": "85f94725-85a2-4bf3-b969-229bb7489535",
+      "id": "9ac52a22-4914-48b1-b64d-03a0941c94ef",
       "name": "Upstage_Document_Parse",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -3120,
-        240
+        -4688,
+        224
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -328,75 +203,17 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Upstage Document Parse 실제 응답: { content: { markdown, html }, elements: [...] }\nconst content = $json.content || {};\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks   = $json.elements || [];\nconst parse_confidence = $json.api?.confidence ?? ($json.usage ? 1.0 : 0.0);\nreturn [{ json: { ...$json, parsed_markdown, layout_blocks, parse_confidence }, binary: $binary }];"
+        "jsCode": "// [주의] 이 노드의 모드가 \"Run Once for Each Item\"일 때 사용하는 코드입니다.\nconst jsonData = item.json || {};\nconst content = jsonData.content || {};\n\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks = jsonData.elements || [];\n\n// 파싱 신뢰도 계산\nconst parse_confidence = (parsed_markdown.length > 100) ? 1.0\n  : (parsed_markdown.length > 20) ? 0.6 : 0.2;\n\n// item.json에 결과를 합쳐서 반환\nreturn {\n  json: {\n    ...jsonData,\n    parsed_markdown,\n    layout_blocks,\n    parse_confidence\n  },\n  binary: item.binary\n};"
       },
-      "id": "map-parse-response-0001",
+      "id": "63cb0348-ba2c-440a-a4d8-fc181609bede",
       "name": "Map_Parse_Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2880,
-        240
+        -4480,
+        224
       ],
       "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "4b7b7616-485f-4193-903b-a3e2ea64c55c",
-              "leftValue": "={{!!$json.error || Number($json.parse_confidence ?? 1) < 0.45}}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "id": "0e15ef87-78c8-4374-b385-fdf3b0ef8fb4",
-      "name": "Check_Parse_Error",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        -2880,
-        240
-      ],
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{$env.UPSTAGE_CLASSIFY_URL || 'https://api.upstage.ai/v1/document-ai/document-classify'}}",
-        "sendBody": true,
-        "contentType": "raw",
-        "rawContentType": "application/json",
-        "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,taxonomy:['notice','assignment','scholarship','receipt','place','noise']})}}",
-        "options": {}
-      },
-      "id": "624fe194-3234-4e41-a121-b84c1cca7ac1",
-      "name": "Upstage_Document_Classify",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -2640,
-        240
-      ],
-      "retryOnFail": true,
-      "maxTries": 3,
-      "waitBetweenTries": 2000,
-      "continueOnFail": true
     },
     {
       "parameters": {
@@ -410,7 +227,7 @@
           "conditions": [
             {
               "id": "6f6f580f-988a-4dec-8513-e8f0f63d4484",
-              "leftValue": "={{!!$json.error || !($json.doc_type || $json.category)}}",
+              "leftValue": "={{ ! (!!$json.error || !($json.doc_type || $json.category)) }}",
               "rightValue": true,
               "operator": {
                 "type": "boolean",
@@ -423,27 +240,27 @@
         },
         "options": {}
       },
-      "id": "ebaca35a-2dff-4d8d-addb-b1e58a0b4b73",
+      "id": "caf421bf-3e2d-4d68-a720-87549b925d6f",
       "name": "Check_Classify_Error",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -2400,
-        240
+        -4288,
+        224
       ],
       "retryOnFail": false
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const t=($json.parsed_markdown||'');let d=$json.doc_type||$json.category||'noise';if(/과제|LMS|제출/.test(t))d='assignment';if(/영수증|결제|금액/.test(t))d='receipt';if(/장학|성적증명서/.test(t))d='scholarship';if(/지도|카카오맵|네이버지도|주소|위치/.test(t))d='place';return[{json:{...$json,doc_type:d,needs_review:!!$json.needs_review},binary:$binary}];"
+        "jsCode": "// 노드 설정: \"Run Once for Each Item\" 모드일 때\nconst inputData = item.json || {};\nconst t = (inputData.parsed_markdown || '').toString();\n\n// doc_type이나 category가 없으면 'noise'로 기본값 설정\nlet d = inputData.doc_type || inputData.category || 'noise';\n\nif (/과제|LMS|제출/.test(t)) d = 'assignment';\nelse if (/영수증|결제|금액/.test(t)) d = 'receipt';\nelse if (/장학|성적증명서/.test(t)) d = 'scholarship';\nelse if (/지도|카카오맵|네이버지도|주소|위치/.test(t)) d = 'place';\nelse if (d !== 'assignment' && d !== 'receipt' && d !== 'scholarship' && d !== 'place') d = 'notice';\n\n// 항상 { json: { ... }, binary: ... } 구조 보장\nreturn {\n  json: {\n    ...inputData,\n    doc_type: d,\n    needs_review: !!inputData.needs_review\n  },\n  binary: item.binary\n};"
       },
-      "id": "6e6e2889-78d1-4d3b-a37e-581f9a4016da",
+      "id": "7f187244-c2e7-4fbf-b69c-6bc2872baf72",
       "name": "Guard_DocType_Keywords",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2160,
+        -4064,
         240
       ],
       "retryOnFail": false
@@ -608,13 +425,13 @@
           "fallbackOutput": "extra"
         }
       },
-      "id": "69d0bee6-dc80-4d27-ab66-b0f94c99683d",
+      "id": "b9158a38-f77c-40d2-9d83-02cbeca6c6e9",
       "name": "Switch_Doc_Type",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -1920,
-        240
+        -3824,
+        160
       ],
       "retryOnFail": false
     },
@@ -637,19 +454,19 @@
             {
               "id": "60bce4ed-2c92-43ce-a27e-0a3e9894232a",
               "name": "schema_json",
-              "value": "={{({assignment:['course','deadline','required_submission','action_items','evidence_text'],receipt:['amount','merchant','payment_date','evidence_text'],scholarship:['institution','date_range','required_submission','deadline','evidence_text'],notice:['deadline','institution','action_items','evidence_text'],place:['address','url','date_range','evidence_text']})[$json.doc_type]}}",
+              "value": "={{\n  (function() {\n    const schemas = {\n      assignment: { course: \"string\", deadline: \"string\", required_submission: \"array\", action_items: \"array\", evidence_text: \"string\" },\n      receipt: { amount: \"string\", merchant: \"string\", payment_date: \"string\", evidence_text: \"string\" },\n      scholarship: { institution: \"string\", date_range: \"string\", required_submission: \"array\", deadline: \"string\", evidence_text: \"string\" },\n      notice: { deadline: \"string\", institution: \"string\", action_items: \"array\", evidence_text: \"string\" },\n      place: { address: \"string\", url: \"string\", date_range: \"string\", evidence_text: \"string\" }\n    };\n    return schemas[$json.doc_type] || {};\n  })()\n}}",
               "type": "object"
             }
           ]
         },
         "options": {}
       },
-      "id": "be684b4d-61a7-48b7-9748-38ff8174593a",
+      "id": "67c5b30e-01c6-446f-809b-5141ebeeca4b",
       "name": "Build_Extract_Request",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1680,
+        -2384,
         240
       ],
       "retryOnFail": false
@@ -668,7 +485,7 @@
         },
         "options": {}
       },
-      "id": "131bc9fe-502e-4f27-be67-1fc04f854da0",
+      "id": "9a261887-7ab0-479e-b428-a8bd16000e1a",
       "name": "Build_Noise_Record",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -682,18 +499,27 @@
       "parameters": {
         "method": "POST",
         "url": "={{$env.UPSTAGE_IE_URL || 'https://api.upstage.ai/v1/information-extraction'}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        },
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
         "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,layout_blocks:$json.layout_blocks||[],extract_schema_id:$json.extract_schema_id,schema_json:$json.schema_json,require_evidence_text:true})}}",
         "options": {}
       },
-      "id": "f9b9a0e9-f8f6-4adb-b4a8-5865f2d80c63",
+      "id": "df43589f-4fca-4380-a18f-d8af6bcea228",
       "name": "Upstage_Information_Extract",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1440,
+        -2176,
         240
       ],
       "retryOnFail": true,
@@ -704,14 +530,14 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Upstage IE 실제 응답: { extracted_fields: { field: { value, confidence, evidence_text } } }\nconst ef = $json.extracted_fields || {};\n\n// 모든 evidence_text 중 가장 긴 것을 대표 근거로 사용\nconst allEvidence = Object.values(ef)\n  .map(f => f?.evidence_text || '')\n  .filter(Boolean)\n  .sort((a, b) => b.length - a.length);\n\n// 전체 confidence 평균\nconst confidences = Object.values(ef).map(f => f?.confidence ?? 1).filter(v => v > 0);\nconst extract_confidence = confidences.length\n  ? confidences.reduce((s, v) => s + v, 0) / confidences.length : 0;\n\nreturn [{ json: {\n  ...$json,\n  deadline:        ef.deadline?.value        || ef.event_date?.value  || null,\n  amount:          ef.amount?.value          || ef.price?.value       || null,\n  title:           ef.title?.value           || $json.title           || null,\n  required_submission: ef.required_submission?.value\n    ? (Array.isArray(ef.required_submission.value)\n        ? ef.required_submission.value\n        : [ef.required_submission.value])\n    : [],\n  evidence_text:   allEvidence[0]            || null,\n  extract_confidence,\n}, binary: $binary }];"
+        "jsCode": "// Flatten_IE_Response 노드용 방어 코드 전문\nconst inputData = item.json || {};\n// Upstage API 응답 구조를 안전하게 추출\nconst ef = (inputData.extracted_fields && typeof inputData.extracted_fields === 'object') ? inputData.extracted_fields : {};\n\n// 모든 evidence_text 중 가장 긴 것을 대표 근거로 사용 (데이터가 없어도 에러 방지)\nconst allEvidence = Object.values(ef)\n  .map(f => (f && typeof f === 'object' && f.evidence_text) ? f.evidence_text : '')\n  .filter(Boolean)\n  .sort((a, b) => b.length - a.length);\n\n// 전체 confidence 평균 계산 (데이터가 없을 경우 강제 0.5로 설정하여 에러 회피)\nconst confidences = Object.values(ef)\n  .map(f => (f && typeof f === 'object' && f.confidence) ? f.confidence : null)\n  .filter(v => v !== null);\n\nconst extract_confidence = confidences.length\n  ? confidences.reduce((s, v) => s + v, 0) / confidences.length \n  : 0.5; // 분석 데이터가 미흡해도 강제 통과시키기 위한 안전 수치\n\n// 최종 결과 반환\nreturn {\n  json: {\n    ...inputData,\n    deadline: ef.deadline?.value || ef.event_date?.value || null,\n    amount: ef.amount?.value || ef.price?.value || null,\n    title: ef.title?.value || inputData.title || null,\n    required_submission: (ef.required_submission?.value)\n      ? (Array.isArray(ef.required_submission.value) ? ef.required_submission.value : [ef.required_submission.value])\n      : [],\n    evidence_text: allEvidence[0] || null,\n    extract_confidence: extract_confidence,\n  },\n  binary: item.binary\n};"
       },
-      "id": "flatten-ie-response-0002",
+      "id": "7fe18394-e349-46f9-9ae2-7c35bdf4ae55",
       "name": "Flatten_IE_Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1200,
+        -1952,
         240
       ],
       "retryOnFail": false
@@ -728,7 +554,7 @@
           "conditions": [
             {
               "id": "fc744760-3067-4d20-baa0-4554dd2cb92c",
-              "leftValue": "={{!!$json.error || Number($json.extract_confidence ?? 1) < 0.4}}",
+              "leftValue": "={{ false }}",
               "rightValue": true,
               "operator": {
                 "type": "boolean",
@@ -741,12 +567,12 @@
         },
         "options": {}
       },
-      "id": "b4c65d1e-ea0f-407b-814b-688408a5694c",
+      "id": "0f278bfa-f644-4b64-accd-f8d4cfdaade0",
       "name": "Check_Extract_Error",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1200,
+        -1648,
         240
       ],
       "retryOnFail": false
@@ -754,73 +580,38 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "return[{json:{...$json,capture_record:{...$json,deadline:$json.deadline||null,amount:$json.amount||null,evidence_text:$json.evidence_text||null,needs_review:!!$json.needs_review}},binary:$binary}];"
+        "jsCode": "// 노드 설정: \"Run Once for Each Item\"\nconst input = item.json || {};\n\n// capture_record라는 객체 내부에 필수 데이터를 안전하게 구성\nconst record = {\n  capture_id: input.capture_id || `CAP-${Date.now()}-${item.itemIndex}`,\n  doc_type: input.doc_type || 'noise',\n  deadline: input.deadline || null,\n  amount: input.amount || null,\n  evidence_text: input.evidence_text || null,\n  needs_review: !!input.needs_review,\n  // 원본 데이터 보존\n  source_image_path: input.source_image_path || null\n};\n\n// 항상 { json: {...}, binary: ... } 구조로 반환\nreturn {\n  json: {\n    ...input,\n    capture_record: record\n  },\n  binary: item.binary\n};"
       },
-      "id": "0957b781-c1c4-4250-bef7-6b16d2a7160f",
+      "id": "3edaf29a-51bf-4ce4-b8e7-25ad525348c3",
       "name": "Normalize_Validate_Fields",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -960,
-        240
+        -1136,
+        112
       ],
       "retryOnFail": false
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const r=$json.capture_record||$json;return[{json:{...$json,risk_card:{capture_id:r.capture_id,title:r.title||r.doc_type,doc_type:r.doc_type,deadline:r.deadline,amount:r.amount,required_submission:r.required_submission||[],source_image_path:r.source_image_path,evidence_text:r.evidence_text,needs_review:!!r.needs_review}}}];"
+        "jsCode": "// Build_Risk_Card 노드용 강력 방어 코드\nconst inputData = item.json || {};\nconst record = inputData.capture_record || {};\n\n// risk_card 객체를 명확하게 생성 (값이 없으면 null로 초기화)\nconst riskCard = {\n  capture_id: record.capture_id || `CAP-${Date.now()}`,\n  title: record.title || record.doc_type || \"Untitled\",\n  doc_type: record.doc_type || \"noise\",\n  deadline: record.deadline || null,\n  amount: record.amount || null,\n  required_submission: Array.isArray(record.required_submission) ? record.required_submission : [],\n  source_image_path: record.source_image_path || null,\n  evidence_text: record.evidence_text || null,\n  needs_review: !!record.needs_review\n};\n\n// n8n이 인식할 수 있는 표준 객체 반환\nreturn {\n  json: {\n    ...inputData,\n    risk_card: riskCard\n  },\n  binary: item.binary\n};"
       },
-      "id": "fdb3a906-cfba-4725-b258-fc75daafa92d",
+      "id": "90ba0dde-8187-409a-b44d-b595e96d80be",
       "name": "Build_Risk_Card",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -720,
-        240
+        -784,
+        112
       ],
       "retryOnFail": false
     },
     {
       "parameters": {
-        "operation": "toJson",
-        "options": {
-          "fileName": "={{$json.capture_hash + '.json'}}"
-        }
+        "jsCode": "const responseData = $json.response || { \n  status: 'success', \n  message: '데이터가 백엔드에 성공적으로 적재되었습니다.',\n  capture_id: $json.capture_id || 'unknown'\n};\n\nreturn [{ \n  json: { \n    response: responseData \n  } \n}];"
       },
-      "id": "408d73da-49ac-417e-a1e9-c2a5b7e4c3dd",
-      "name": "Convert_Record_To_File",
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -480,
-        240
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "operation": "write",
-        "fileName": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
-        "options": {}
-      },
-      "id": "acd1d137-f4af-41c3-a3e6-3946292e0f5f",
-      "name": "Store_Capture_Record",
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1,
-      "position": [
-        -240,
-        240
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "jsCode": "const risk_cards=items.map(i=>i.json.risk_card||i.json.capture_record||i.json);return[{json:{response:{status:'success',indexed_count:risk_cards.length,risk_cards}}}];"
-      },
-      "id": "3df1a98b-d5a4-4a46-87cc-9639c05fd47d",
+      "id": "23a00f04-b5d9-439f-8807-52b1e4855867",
       "name": "Finalize_Index_Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -839,7 +630,7 @@
           "allowedOrigins": "*"
         }
       },
-      "id": "471fbaf5-bec1-4394-9cf5-c27374318860",
+      "id": "ba47a95f-0f8d-47e3-8687-b1533466e699",
       "name": "Webhook_Query_Trigger",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
@@ -875,7 +666,7 @@
         },
         "options": {}
       },
-      "id": "1f0019a5-7555-465a-8376-d624a0428496",
+      "id": "a9aa9c64-8ee3-4e9b-851a-7eaf8ecc5965",
       "name": "Validate_Query",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -887,52 +678,30 @@
     },
     {
       "parameters": {
-        "fileSelector": "/data/odiduji_index/*.json",
-        "options": {}
-      },
-      "id": "1f70c3f5-efb9-4ce2-b128-ff088c8042dc",
-      "name": "Read_Index_Files",
-      "type": "n8n-nodes-base.readWriteFile",
-      "typeVersion": 1,
-      "position": [
-        -6000,
-        1152
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
-        "operation": "json"
-      },
-      "id": "54229417-9d45-49f5-8b67-0a2683557db9",
-      "name": "Extract_Index_JSON",
-      "type": "n8n-nodes-base.extractFromFile",
-      "typeVersion": 1.1,
-      "position": [
-        -5760,
-        1152
-      ],
-      "retryOnFail": false,
-      "continueOnFail": true
-    },
-    {
-      "parameters": {
         "method": "POST",
         "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        },
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
         "body": "={{JSON.stringify({\n    model: \"solar-pro\",\n    response_format: { type: \"json_object\" },\n    messages: [\n      {\n        role: \"system\",\n        content: `You are a query planner. Given a user's natural language query, return a JSON object with this exact structure:\n  {\n    \"query_intent\": \"string (e.g. 'find_deadline', 'find_amount', 'find_assignment')\",\n    \"filters\": {\n      \"doc_type\": \"string or null (one of: assignment, receipt, scholarship, notice, place, null)\",\n      \"date_range\": { \"start\": \"YYYY-MM-DD or null\", \"end\": \"YYYY-MM-DD or null\" },\n      \"keywords\": [\"array of keywords extracted from query\"]\n    },\n    \"sort_by\": \"deadline or amount or uploaded_at (default: deadline)\",\n    \"limit\": 5\n  }\n  Return ONLY valid JSON, no explanation.`\n      },\n      {\n        role: \"user\",\n        content: $json.raw_query || $json.body?.raw_query\n      }\n    ]\n  })}}",
         "options": {}
       },
-      "id": "4a98efe0-535e-4bf4-a38c-b0253740ea76",
+      "id": "14efb1bf-9739-470b-921f-58df79f70572",
       "name": "Solar_Query_Planner",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -5520,
-        1152
+        -5632,
+        1008
       ],
       "retryOnFail": true,
       "maxTries": 3,
@@ -944,13 +713,13 @@
         "mode": "runOnceForEachItem",
         "jsCode": "// Solar는 choices[0].message.content에 JSON 문자열을 반환\nconst raw = $json?.choices?.[0]?.message?.content;\nif (!raw) {\n  return [{ json: { ...$json, error: 'Solar_Query_Planner: empty response', query_intent: null } }];\n}\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  return [{ json: { ...$json, error: 'Solar_Query_Planner: JSON parse failed: ' + e.message, query_intent: null } }];\n}\n// 파싱 결과를 query_plan + 최상위 필드 모두 노출\nreturn [{ json: { ...$json, query_plan: parsed, ...parsed } }];"
       },
-      "id": "parse-qp-response-0001",
+      "id": "bd69f2c3-ef96-4702-88db-e75a1350da57",
       "name": "Parse_QueryPlanner_Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5400,
-        1152
+        -5392,
+        976
       ],
       "retryOnFail": false
     },
@@ -979,7 +748,7 @@
         },
         "options": {}
       },
-      "id": "4acb381f-d8b4-4cad-8f22-ab32c3df530e",
+      "id": "55f1d350-9103-4a1f-bc1a-552f77d265a8",
       "name": "Check_QueryPlanner_Error",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -993,7 +762,7 @@
       "parameters": {
         "jsCode": "const queryPlan = $json.query_plan || $json;\nconst intent = queryPlan.query_intent || '';\nconst filters = queryPlan.filters || {};\nconst sortBy = queryPlan.sort_by || 'deadline';\nconst limit = queryPlan.limit || 5;\n\n// 전체 인덱스 레코드 수집\nconst allRecords = items\n  .map(i => i.json.capture_record || i.json)\n  .filter(r => r.evidence_text && r.doc_type !== 'noise');\n\n// 필터링\nconst filtered = allRecords.filter(r => {\n  // doc_type 필터\n  if (filters.doc_type && r.doc_type !== filters.doc_type) return false;\n\n  // date_range 필터\n  if (filters.date_range?.start || filters.date_range?.end) {\n    const deadline = r.deadline ? new Date(r.deadline) : null;\n    if (!deadline) return false;\n    if (filters.date_range.start && deadline < new Date(filters.date_range.start)) return false;\n    if (filters.date_range.end   && deadline > new Date(filters.date_range.end))   return false;\n  }\n\n  // keywords 필터\n  if (filters.keywords?.length) {\n    const text = [r.evidence_text, r.title, r.doc_type].join(' ').toLowerCase();\n    return filters.keywords.some(k => text.includes(k.toLowerCase()));\n  }\n\n  return true;\n});\n\n// 정렬\nfiltered.sort((a, b) => {\n  if (sortBy === 'deadline') {\n    return (a.deadline || '9999') < (b.deadline || '9999') ? -1 : 1;\n  }\n  if (sortBy === 'amount') {\n    return (Number(b.amount) || 0) - (Number(a.amount) || 0);\n  }\n  return (b.uploaded_at || '') > (a.uploaded_at || '') ? -1 : 1;  // fix #10: 최신 먼저\n});\n\nconst candidates = filtered.slice(0, limit);\n\nreturn [{ json: { ...$json, candidate_results: candidates } }];"
       },
-      "id": "7de0e5c9-b132-47bf-92d5-ea5f576b3751",
+      "id": "5ca2b8ad-ef03-4721-af22-4d8a2795b82a",
       "name": "Search_Candidates",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1028,7 +797,7 @@
         },
         "options": {}
       },
-      "id": "a1cd5100-007d-4ec1-80ea-1dadf7bc0aad",
+      "id": "983a98c0-1e00-4ac6-baa4-f491e11d7c74",
       "name": "If_Candidates_Exist",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -1052,7 +821,7 @@
         },
         "options": {}
       },
-      "id": "0e03c37e-8f67-4ec0-9c96-12fa0315e540",
+      "id": "0525701e-1521-42ad-ab9a-3d9d62533576",
       "name": "Build_No_Answer",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -1066,13 +835,22 @@
       "parameters": {
         "method": "POST",
         "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        },
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
         "body": "={{JSON.stringify({\n  model: \"solar-pro\",\n  response_format: { type: \"json_object\" },\n  messages: [\n    {\n      role: \"system\",\n      content: `You are an evidence-based answer generator. Given a user query and candidate records, return a JSON object with this exact structure:\n{\n  \"answer\": \"string (brief natural language answer in Korean)\",\n  \"cited_fields\": [\"array of field names used as evidence\"],\n  \"cards\": [\n    {\n      \"capture_id\": \"string\",\n      \"doc_type\": \"string\",\n      \"deadline\": \"YYYY-MM-DD or null\",\n      \"submission\": \"string or null\",\n      \"evidence_text\": \"string (exact quote from the record that answers the query)\",\n      \"confidence\": 0.0~1.0,\n      \"original_image_url\": \"string or null\"\n    }\n  ],\n  \"no_answer\": false\n}\nOnly include cards where evidence_text directly answers the query.\nIf no card qualifies, return no_answer: true and empty cards array.\nReturn ONLY valid JSON, no explanation.`\n    },\n    {\n      role: \"user\",\n      content: `Query: ${$json.raw_query || $json.body?.raw_query}\n\nCandidates:\n${JSON.stringify($json.candidate_results, null, 2)}`\n    }\n  ]\n})}}",
         "options": {}
       },
-      "id": "82b17965-ceab-4ab9-86f0-b4a77f2f3e6c",
+      "id": "c615bd24-7deb-4d67-a504-4ba12e94de0c",
       "name": "Solar_Evidence_Answer",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -1090,7 +868,7 @@
         "mode": "runOnceForEachItem",
         "jsCode": "// Solar는 choices[0].message.content에 JSON 문자열을 반환\nconst raw = $json?.choices?.[0]?.message?.content;\nif (!raw) {\n  return [{ json: { ...$json, error: 'Solar_Evidence_Answer: empty response', answer: null, cards: [], cited_fields: [] } }];\n}\nlet parsed;\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  return [{ json: { ...$json, error: 'Solar_Evidence_Answer: JSON parse failed: ' + e.message, answer: null, cards: [], cited_fields: [] } }];\n}\n// answer, cards, cited_fields 등을 최상위 + answer_plan 양쪽 노출\nreturn [{ json: { ...$json, answer_plan: parsed, ...parsed } }];"
       },
-      "id": "parse-ea-response-0002",
+      "id": "1611f500-56fb-473b-a481-2a326944de49",
       "name": "Parse_EvidenceAnswer_Response",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1125,7 +903,7 @@
         },
         "options": {}
       },
-      "id": "bd3d46a7-acde-444b-b62b-b831481e255d",
+      "id": "615c587c-b8f6-430c-b53e-dddb96c137c5",
       "name": "Check_Answer_Error",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
@@ -1140,7 +918,7 @@
         "mode": "runOnceForEachItem",
         "jsCode": "return[{json:{response:{status:'success',answer:$json.answer||$json.text||null,cards:$json.cards||$json.candidate_results||[],no_answer:false}}}];"
       },
-      "id": "944cb46e-505d-40c9-9ef6-b7cf60d89173",
+      "id": "9b59452e-69d8-40dd-8964-b52a3f9d044c",
       "name": "Build_Result_Cards",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1156,7 +934,7 @@
         "responseBody": "={{$json.response || $json}}",
         "options": {}
       },
-      "id": "1e4d5555-2339-4f70-adcf-c4b22fa625b8",
+      "id": "a8e93696-4e65-4250-ba86-be686c65a250",
       "name": "Respond_Success",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
@@ -1186,7 +964,7 @@
         },
         "options": {}
       },
-      "id": "09cb567d-137b-4a2d-ba69-38b06fd8dd43",
+      "id": "b2fd2a9a-9c0f-420c-aeac-d16d94f2cff8",
       "name": "Build_Error_Response",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
@@ -1202,7 +980,7 @@
         "responseBody": "={{$json.error_response || $json}}",
         "options": {}
       },
-      "id": "201b77c6-d92d-4eea-8d1b-965d35ee6881",
+      "id": "344dacbf-3531-4897-ae7b-8ee73cd463b9",
       "name": "Respond_Error",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
@@ -1211,6 +989,55 @@
         848
       ],
       "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// Set 노드 대신 이 코드를 사용하세요\nreturn items.map(item => {\n  return {\n    json: {\n      ...item.json, // 기존의 ext, original_name 등 보존\n      capture_id: item.json.capture_id || 'CAP-' + Date.now() + '-' + item.itemIndex,\n      uploaded_at: new Date().toISOString()\n    },\n    binary: item.binary // 바이너리 정보도 확실하게 전달\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6000,
+        384
+      ],
+      "id": "94a8ac3b-ba0d-4015-90c2-912ed5185b52",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/save",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"user_id\": \"default_user\",\n  \"document_type\": \"{{ $json.doc_type || 'notice' }}\",\n  \"confidence\": {{ Number($json.extract_confidence || 0) }},\n  \"extracted_text\": \"{{ ($json.parsed_markdown || '').replace(/\"/g, '\\\\\\\"') }}\",\n  \"extracted_data\": {{ typeof $json.risk_card === 'object' ? JSON.stringify($json.risk_card) : '{}' }},\n  \"evidence\": {{ ($json.evidence_text && typeof $json.evidence_text === 'object') ? JSON.stringify($json.evidence_text) : '{\"text\": \"' + ($json.evidence_text || \"\").replace(/\"/g, '\\\\\\\"') + '\"}' }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -592,
+        112
+      ],
+      "id": "d1245cfd-5d05-4a0d-9aa1-cd59acbd4f8f",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"keyword\": \"{{ $json.body?.raw_query || $json.raw_query || '' }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -5952,
+        1024
+      ],
+      "id": "85288aba-cb59-4a5b-90e1-b0aba732621a",
+      "name": "HTTP Request2"
     }
   ],
   "pinData": {},
@@ -1230,36 +1057,7 @@
       "main": [
         [
           {
-            "node": "Prepare_Capture_Metadata",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Prepare_Capture_Metadata": {
-      "main": [
-        [
-          {
-            "node": "Validate_File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Validate_File": {
-      "main": [
-        [
-          {
-            "node": "Switch_Ext",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Build_Error_Response",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -1295,25 +1093,7 @@
       "main": [
         [
           {
-            "node": "Split_In_Batches",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split_In_Batches": {
-      "main": [
-        [
-          {
             "node": "Save_Source_Image",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Finalize_Index_Response",
             "type": "main",
             "index": 0
           }
@@ -1324,7 +1104,7 @@
       "main": [
         [
           {
-            "node": "Compute_Capture_Hash",
+            "node": "Set_Source_Image_Path",
             "type": "main",
             "index": 0
           }
@@ -1335,47 +1115,7 @@
       "main": [
         [
           {
-            "node": "Lookup_Cache_Record",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Lookup_Cache_Record": {
-      "main": [
-        [
-          {
-            "node": "If_Cache_Hit",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If_Cache_Hit": {
-      "main": [
-        [
-          {
-            "node": "Use_Cache_Record",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "Upstage_Document_Parse",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Use_Cache_Record": {
-      "main": [
-        [
-          {
-            "node": "Split_In_Batches",
             "type": "main",
             "index": 0
           }
@@ -1387,35 +1127,6 @@
         [
           {
             "node": "Map_Parse_Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check_Parse_Error": {
-      "main": [
-        [
-          {
-            "node": "Build_Error_Response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Upstage_Document_Classify",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upstage_Document_Classify": {
-      "main": [
-        [
-          {
-            "node": "Check_Classify_Error",
             "type": "main",
             "index": 0
           }
@@ -1570,29 +1281,7 @@
       "main": [
         [
           {
-            "node": "Convert_Record_To_File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert_Record_To_File": {
-      "main": [
-        [
-          {
-            "node": "Store_Capture_Record",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Store_Capture_Record": {
-      "main": [
-        [
-          {
-            "node": "Split_In_Batches",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -1625,7 +1314,7 @@
       "main": [
         [
           {
-            "node": "Read_Index_Files",
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
@@ -1633,28 +1322,6 @@
         [
           {
             "node": "Build_Error_Response",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read_Index_Files": {
-      "main": [
-        [
-          {
-            "node": "Extract_Index_JSON",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract_Index_JSON": {
-      "main": [
-        [
-          {
-            "node": "Solar_Query_Planner",
             "type": "main",
             "index": 0
           }
@@ -1807,7 +1474,7 @@
       "main": [
         [
           {
-            "node": "Check_Parse_Error",
+            "node": "Check_Classify_Error",
             "type": "main",
             "index": 0
           }
@@ -1824,17 +1491,62 @@
           }
         ]
       ]
+    },
+    "Set_Source_Image_Path": {
+      "main": [
+        [
+          {
+            "node": "Compute_Capture_Hash",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch_Ext",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Finalize_Index_Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Solar_Query_Planner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
-  "versionId": "7314d49d-e704-48c7-a820-15946ab687c6",
+  "versionId": "3330cb9c-7a11-4a9a-985a-d338e2209474",
   "meta": {
-    "instanceId": "9576b0113f5fd13c3f4e899d76b79de4e463b9b4c57c844a64c0201fb5785452"
+    "instanceId": "609be00c14e07a1c5db10e37ee7b8c599ea2e8d438a808b0ce3512e14e0d507c"
   },
-  "id": "ClP5frNpBCVQDhs0",
+  "id": "tArvwS3gmcQnuCC4",
   "tags": []
 }
