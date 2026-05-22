@@ -1,353 +1,126 @@
-import argparse
-import base64
-import json
 import os
-import re
-import time
-from datetime import datetime, timezone
-from pathlib import Path
-
+import json
+import sys
 import requests
 from dotenv import load_dotenv
 
+# ==========================================
+# ⚙️ 1. 환경변수 (.env) 중앙 집중식 로드 설정
+# ==========================================
+# 스크립트 실행 위치에 관계없이 backend/.env 또는 루트 .env를 유연하게 찾습니다.
+current_dir = os.path.dirname(os.path.abspath(__file__))  # data/data/
+project_root = os.path.dirname(os.path.dirname(current_dir))  # odi-duji/ 최상위
 
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".heic"}
-IE_URL = "https://api.upstage.ai/v1/information-extraction"
+# 탐색할 .env 경로 후보 리스트
+env_candidates = [
+    os.path.join(project_root, 'backend', '.env'),  # 1순위: backend/.env
+    os.path.join(project_root, '.env'),           # 2순위: 루트/.env
+    os.path.join(current_dir, '.env')              # 3순위: 현재 폴더/.env
+]
 
+env_loaded = False
+for env_path in env_candidates:
+    if os.path.exists(env_path):
+        load_dotenv(env_path)
+        print(f"[Info] 환경변수 파일을 성공적으로 로드했습니다: {env_path}")
+        env_loaded = True
+        break
 
-EXTRACTION_SCHEMA = {
-    "type": "object",
-    "properties": {
-        "doc_type": {
-            "type": "string",
-            "description": "One of notice, assignment, scholarship, receipt, place, or unknown.",
-        },
-        "title": {
-            "type": "string",
-            "description": "Main title or representative heading. Empty string if absent.",
-        },
-        "source": {
-            "type": "string",
-            "description": "Issuer, store, school office, organization, app, or document source.",
-        },
-        "created_date": {
-            "type": "string",
-            "description": "Created, issued, paid, or posted date in YYYY-MM-DD if present.",
-        },
-        "event_date": {
-            "type": "string",
-            "description": "Event, visit, meeting, class, or usage date in YYYY-MM-DD if present.",
-        },
-        "deadline": {
-            "type": "string",
-            "description": "Application, submission, payment, or reservation deadline in YYYY-MM-DD if present.",
-        },
-        "deadline_bucket": {
-            "type": "string",
-            "description": "today, this_week, this_month, future, past, or empty string.",
-        },
-        "has_submission": {
-            "type": "string",
-            "description": "true if application/submission/action is requested, false otherwise, unknown if unclear.",
-        },
-        "amount": {
-            "type": "string",
-            "description": "Important KRW amount as digits only if present. Empty string if absent.",
-        },
-        "currency": {
-            "type": "string",
-            "description": "Currency code such as KRW if money is present. Empty string if absent.",
-        },
-        "location_name": {
-            "type": "string",
-            "description": "Venue, store, building, room, or place name if present.",
-        },
-        "address": {
-            "type": "string",
-            "description": "Full address if present.",
-        },
-        "summary": {
-            "type": "string",
-            "description": "One concise Korean sentence summarizing the important content.",
-        },
-        "important_texts": {
-            "type": "array",
-            "description": (
-                "Important visible Korean or English text snippets. Include titles, dates, "
-                "deadlines, amounts, locations, contacts, requirements, and action items."
-            ),
-            "items": {"type": "string"},
-        },
-        "evidence_texts": {
-            "type": "array",
-            "description": "Short original text snippets supporting the extracted fields.",
-            "items": {"type": "string"},
-        },
-    },
-    "required": [
-        "doc_type",
-        "title",
-        "source",
-        "created_date",
-        "event_date",
-        "deadline",
-        "deadline_bucket",
-        "has_submission",
-        "amount",
-        "currency",
-        "location_name",
-        "address",
-        "summary",
-        "important_texts",
-        "evidence_texts",
-    ],
-}
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Extract important text data from images with Upstage Information Extraction."
-    )
-    parser.add_argument("--images-dir", default="images")
-    parser.add_argument("--output", default="outputs/important_texts.json")
-    parser.add_argument("--mode", choices=["standard", "enhanced"], default="standard")
-    parser.add_argument("--limit", type=int, default=None)
-    parser.add_argument("--sleep", type=float, default=1.1, help="Delay between API calls for 1 RPS limits.")
-    parser.add_argument("--force", action="store_true", help="Re-process images already in the output JSON.")
-    parser.add_argument("--retry-errors", action="store_true", help="Re-process images with status=error.")
-    return parser.parse_args()
-
-
-def require_api_key():
+if not env_loaded:
+    # 후보지에 없을 경우 시스템 환경변수 기본 로드 시도
     load_dotenv()
+    print("[Warning] 지정된 경로에서 .env 파일을 찾지 못해 기본 환경변수 로드를 시도합니다.")
+
+
+# ==========================================
+# 🧠 2. Solar API 기반 정보 추출 핵심 함수
+# ==========================================
+def call_solar_api_for_extraction(extracted_text: str, schema_json: dict) -> dict:
+    """
+    Upstage Document Parse(OCR) 결과물에서 정의된 JSON 스키마 구조에 맞게
+    핵심 정보와 팩트 체크용 근거 문장(Evidence)을 추출합니다.
+    """
+    # 환경변수 값 매핑
     api_key = os.getenv("UPSTAGE_API_KEY")
+    solar_url = os.getenv("SOLAR_API_URL", "https://api.upstage.ai/v1/solar/chat/completions")
+    
+    # 💡 [보안 및 동기화 고정] 백엔드 지침에 따라 'solar-pro'를 기본값으로 지정합니다.
+    solar_model = os.getenv("SOLAR_MODEL_NAME", "solar-pro")
+    
     if not api_key:
-        raise RuntimeError("UPSTAGE_API_KEY is missing. Add it to .env or the environment.")
-    return api_key
+        print("[Error] Upstage API Key가 환경변수(UPSTAGE_API_KEY)에 설정되지 않았습니다.", file=sys.stderr)
+        return {}
 
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    # 구조화된 고정 정보 추출을 위한 시스템 및 유저 통합 프롬프트 빌드
+    prompt = f"""
+    당신은 제공된 [문서 본문]에서 사용자가 지정한 [추출 스키마] 구조에 맞게 핵심 정보만을 엄격하게 골라내는 정보 추출(Information Extraction) 전문가입니다.
 
-def list_images(images_dir):
-    root = Path(images_dir)
-    if not root.exists():
-        raise FileNotFoundError(f"Images directory not found: {root}")
-    return sorted(path for path in root.iterdir() if path.suffix.lower() in IMAGE_EXTENSIONS)
+    [작동 규칙]
+    1. 외부 지식이나 추측을 완전히 배제하고, 철저히 [문서 본문]에 적힌 텍스트만을 기반으로 스키마의 값을 채우세요.
+    2. [추출 스키마]에 정의된 모든 Key를 포함한 JSON 객체 하나만 출력해야 합니다.
+    3. 값을 추출할 때, 어떤 문장이나 단어를 보고 이 값을 도출했는지 매칭되는 원본 문장을 'evidence_text' 필드 등에 정확히 함께 기록해 주세요.
 
+    [문서 본문]
+    {extracted_text}
 
-def load_existing(output_path):
-    if not output_path.exists():
-        return {"generated_at": None, "source_dir": None, "count": 0, "results": []}
-    with output_path.open("r", encoding="utf-8") as f:
-        data = json.load(f)
-    data.setdefault("results", [])
-    return data
-
-
-def save_output(output_path, data):
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    data["generated_at"] = datetime.now(timezone.utc).isoformat()
-    data["count"] = len(data.get("results", []))
-    with output_path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-
-def image_to_data_url(image_path):
-    encoded = base64.b64encode(image_path.read_bytes()).decode("ascii")
-    return f"data:application/octet-stream;base64,{encoded}"
-
-
-def request_with_retry(method, url, *, max_retries=4, **kwargs):
-    wait = 1.0
-    for attempt in range(max_retries):
-        response = requests.request(method, url, timeout=120, **kwargs)
-        if response.status_code not in {429, 500, 502, 503, 504}:
-            return response
-        if attempt == max_retries - 1:
-            return response
-        time.sleep(wait)
-        wait *= 2
-    return response
-
-
-def extract_with_upstage(api_key, image_path, mode):
+    [추출 스키마]
+    {json.dumps(schema_json, ensure_ascii=False)}
+    """
+    
     payload = {
-        "model": "information-extract",
-        "messages": [
-            {
-                "role": "user",
-                "content": [
-                    {"type": "image_url", "image_url": {"url": image_to_data_url(image_path)}},
-                ],
-            }
-        ],
-        "response_format": {
-            "type": "json_schema",
-            "json_schema": {
-                "name": "important_text_extraction",
-                "schema": EXTRACTION_SCHEMA,
-            },
-        },
-        "mode": mode,
-        "confidence": True,
+        "model": solar_model,  # 💡 .env에 등록된 'solar-pro'가 일관되게 주입됩니다.
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.0,    # 정보 추출의 정밀도와 팩트 유지를 위해 온도를 0으로 통제합니다.
+        "response_format": {"type": "json_object"}  # 완벽한 JSON 출력을 보장하는 옵션
     }
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    response = request_with_retry("POST", IE_URL, headers=headers, json=payload)
-    if not response.ok:
-        raise RuntimeError(f"Upstage IE failed ({response.status_code}): {response.text}")
-
-    raw = response.json()
-    message = raw["choices"][0]["message"]
-    extracted = json.loads(message["content"])
-    return {
-        "metadata": normalize_metadata(extracted),
-        "summary": clean_string(extracted.get("summary")),
-        "important_texts": clean_string_list(extracted.get("important_texts")),
-        "evidence_texts": clean_string_list(extracted.get("evidence_texts")),
-        "confidence_details": parse_tool_call_arguments(message),
-        "usage": raw.get("usage"),
-        "model": raw.get("model"),
-    }
-
-
-def parse_tool_call_arguments(message):
-    tool_calls = message.get("tool_calls") or []
-    if not tool_calls:
-        return None
-    arguments = tool_calls[0].get("function", {}).get("arguments")
-    if not arguments:
-        return None
-    if isinstance(arguments, dict):
-        return arguments
+    
     try:
-        return json.loads(arguments)
-    except json.JSONDecodeError:
-        return arguments
+        print(f"[API Call] Solar API 호출 중... 모델명: {solar_model}")
+        response = requests.post(solar_url, headers=headers, json=payload, timeout=20)
+        
+        if response.status_code == 200:
+            result_content = response.json()['choices'][0]['message']['content']
+            # 정상적인 JSON 구조인지 파싱 검증 후 반환
+            return json.loads(result_content)
+        else:
+            print(f"[API Error] Status Code: {response.status_code}, Response: {response.text}", file=sys.stderr)
+            return {}
+            
+    except json.JSONDecodeError as jde:
+        print(f"[Parsing Error] Solar 응답을 JSON 객체로 파싱하지 못했습니다: {str(jde)}", file=sys.stderr)
+        return {}
+    except Exception as e:
+        print(f"[Connection Error] Solar API 호출 실패: {str(e)}", file=sys.stderr)
+        return {}
 
 
-def normalize_metadata(extracted):
-    amount = normalize_amount(extracted.get("amount"))
-    return {
-        "doc_type": normalize_choice(
-            extracted.get("doc_type"),
-            {"notice", "assignment", "scholarship", "receipt", "place", "unknown"},
-        ),
-        "title": clean_or_none(extracted.get("title")),
-        "source": clean_or_none(extracted.get("source")),
-        "created_date": normalize_date(extracted.get("created_date")),
-        "event_date": normalize_date(extracted.get("event_date")),
-        "deadline": normalize_date(extracted.get("deadline")),
-        "deadline_bucket": normalize_choice(
-            extracted.get("deadline_bucket"),
-            {"today", "this_week", "this_month", "future", "past"},
-        ),
-        "has_submission": normalize_bool(extracted.get("has_submission")),
-        "amount": amount,
-        "currency": clean_or_none(extracted.get("currency")) or ("KRW" if amount is not None else None),
-        "location_name": clean_or_none(extracted.get("location_name")),
-        "address": clean_or_none(extracted.get("address")),
-    }
-
-
-def clean_string(value):
-    if value is None:
-        return ""
-    return re.sub(r"\s+", " ", str(value)).strip()
-
-
-def clean_or_none(value):
-    value = clean_string(value)
-    return value or None
-
-
-def clean_string_list(value):
-    if not isinstance(value, list):
-        return []
-    cleaned = []
-    seen = set()
-    for item in value:
-        text = clean_string(item)
-        if text and text not in seen:
-            cleaned.append(text)
-            seen.add(text)
-    return cleaned
-
-
-def normalize_choice(value, allowed):
-    value = clean_string(value).lower()
-    return value if value in allowed else None
-
-
-def normalize_bool(value):
-    value = clean_string(value).lower()
-    if value in {"true", "yes", "y", "1", "있음", "예"}:
-        return True
-    if value in {"false", "no", "n", "0", "없음", "아니오"}:
-        return False
-    return None
-
-
-def normalize_amount(value):
-    text = clean_string(value)
-    if not text:
-        return None
-    digits = re.sub(r"[^0-9.]", "", text)
-    if not digits:
-        return None
-    try:
-        amount = float(digits)
-    except ValueError:
-        return None
-    return int(amount) if amount.is_integer() else amount
-
-
-def normalize_date(value):
-    text = clean_string(value)
-    if not text:
-        return None
-    match = re.search(r"(20\d{2})[-./년\s]*(\d{1,2})[-./월\s]*(\d{1,2})", text)
-    if not match:
-        return text
-    year, month, day = match.groups()
-    return f"{int(year):04d}-{int(month):02d}-{int(day):02d}"
-
-
-def main():
-    args = parse_args()
-    api_key = require_api_key()
-    images = list_images(args.images_dir)
-    if args.limit is not None:
-        images = images[: args.limit]
-
-    output_path = Path(args.output)
-    output = load_existing(output_path)
-    output["source_dir"] = str(Path(args.images_dir))
-
-    target_ids = {path.stem for path in images}
-    existing_by_id = {item.get("image_id"): item for item in output["results"]}
-    results = [item for item in output["results"] if item.get("image_id") not in target_ids]
-
-    for index, image_path in enumerate(images, start=1):
-        image_id = image_path.stem
-        existing = existing_by_id.get(image_id)
-        if existing and not args.force and (existing.get("status") == "ok" or not args.retry_errors):
-            results.append(existing_by_id[image_id])
-            print(f"[skip] {image_path.name}")
-            continue
-
-        print(f"[{index}/{len(images)}] extracting {image_path.name}")
-        item = {"image_id": image_id, "file_name": image_path.name, "status": "ok"}
-        try:
-            item.update(extract_with_upstage(api_key, image_path, args.mode))
-        except Exception as exc:
-            item["status"] = "error"
-            item["error"] = str(exc)
-
-        results.append(item)
-        output["results"] = sorted(results, key=lambda row: row.get("image_id", ""))
-        save_output(output_path, output)
-        time.sleep(args.sleep)
-
-    print(f"Saved {len(output['results'])} records to {output_path}")
-
-
+# ==========================================
+# 🚀 3. n8n CLI 실행 파이프라인 엔트리포인트
+# ==========================================
 if __name__ == "__main__":
-    main()
+    """
+    n8n 워크플로우 파이프라인에서 인자를 받아 독립 실행할 수 있도록 지원하는 메인 로직입니다.
+    예시: python extract_important_texts.py "<문서텍스트>" "<스키마JSON문자열>"
+    """
+    if len(sys.argv) < 3:
+        # 테스트용 임시 모크 데이터 작동 가드
+        sample_text = "컴퓨터네트워크 과제3 제출 안내. 마감일은 2026년 6월 20일 정보공학관 403호 제출."
+        sample_schema = {"assignment_name": "과제명", "due_date": "마감일"}
+        print("[Info] 인자가 입력되지 않아 테스트 모드로 실행합니다.")
+        test_result = call_solar_api_for_extraction(sample_text, sample_schema)
+        print("테스트 결과:", json.dumps(test_result, ensure_ascii=False, indent=2))
+    else:
+        # n8n으로부터 수신한 인자 파싱
+        input_text = sys.argv[1]
+        try:
+            input_schema = json.loads(sys.argv[2])
+            extracted_json = call_solar_api_for_extraction(input_text, input_schema)
+            # n8n 표준 출력을 위해 JSON 한 줄로 프린트
+            print(json.dumps(extracted_json, ensure_ascii=False))
+        except Exception as ex:
+            print(json.dumps({"status": "error", "message": f"파이프라인 구동 실패: {str(ex)}"}))
