@@ -1,3 +1,4 @@
+import os
 import json
 import sqlite3
 from datetime import datetime
@@ -5,6 +6,12 @@ from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 import requests
+
+# 💡 [추가] .env 파일에서 환경변수를 로드하기 위한 라이브러리 임포트
+from dotenv import load_dotenv
+
+# 💡 [추가] 프로젝트 루트 또는 현재 디렉토리의 .env 파일을 읽어 환경변수로 등록합니다.
+load_dotenv()
 
 app = FastAPI(title="AI Pipeline Backend #2")
 
@@ -127,8 +134,11 @@ def generate_answer(capture_id: int, user_question: str):
         
     context_text = row["extracted_text"]
     
-    # Upstage Solar API 설정
-    api_key = "up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
+    # 🛠️ [수정] 하드코딩된 API 키를 제거하고 환경변수에서 안전하게 가져옵니다.
+    api_key = os.getenv("UPSTAGE_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="서버 환경변수에 Upstage API Key가 설정되지 않았습니다.")
+        
     solar_url = "https://api.upstage.ai/v1/solar/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     
