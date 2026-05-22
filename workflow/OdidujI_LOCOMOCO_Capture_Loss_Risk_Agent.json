@@ -314,13 +314,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_PARSE_URL || 'https://api.upstage.ai/v1/document-ai/document-parse'}}",
+        "url": "https://api.upstage.ai/v1/document-ai/document-parse",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+              "value": "Bearer up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
             }
           ]
         },
@@ -403,13 +403,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_CLASSIFY_URL || 'https://api.upstage.ai/v1/document-ai/document-classify'}}",
+        "url": "https://api.upstage.ai/v1/document-ai/document-classify",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+              "value": "Bearer up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
             }
           ]
         },
@@ -715,13 +715,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_IE_URL || 'https://api.upstage.ai/v1/information-extraction'}}",
+        "url": "https://api.upstage.ai/v1/information-extraction",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+              "value": "Bearer up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
             }
           ]
         },
@@ -962,13 +962,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "https://api.upstage.ai/v1/chat/completions",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+              "value": "Bearer up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
             }
           ]
         },
@@ -1117,13 +1117,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "https://api.upstage.ai/v1/chat/completions",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+              "value": "Bearer up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
             }
           ]
         },
