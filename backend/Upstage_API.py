@@ -1,3 +1,4 @@
+import os
 import json
 import sqlite3
 from datetime import datetime
@@ -128,14 +129,21 @@ def generate_answer(capture_id: int, user_question: str):
     context_text = row["extracted_text"]
     
     # Upstage Solar API 설정
-    api_key = "up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
+    api_key = os.getenv("UPSTAGE_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="서버 환경변수에 Upstage API Key가 설정되지 않았습니다.")
+        
     solar_url = "https://api.upstage.ai/v1/solar/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     
+    # ✨ [수정] 하드코딩된 날짜를 제거하고, 철저히 주어진 컨텍스트 내의 날짜 정보를 파싱하도록 프롬프트 최적화
     prompt = f"""
-    당신은 제공된 [문서 본문]만을 기반으로 답변하는 챗봇입니다.
-    [질문]에 대해 [문서 본문]에 있는 내용을 바탕으로만 사실대로 답변하세요.
-    중간에 2026년 6월 15일이라는 마감일 정보가 있다면 그것을 정확히 명시해 주세요.
+    당신은 제공된 [문서 본문]의 내용만을 신뢰하여 질문에 답변하는 대학 생활 비서 에이전트입니다.
+    
+    [답변 규칙]
+    1. 추측이나 외부 지식을 절대 배제하고, 오직 [문서 본문]에 명시된 사실만을 기반으로 답변하세요.
+    2. 본문 중에 과제 마감일, 장학금 신청 기한, 행사 일시 등 '날짜 및 시간 정보'가 발견된다면 유저가 놓치지 않도록 정확하고 명확하게 강조하여 답변에 포함해 주세요.
+    3. 만약 질문에 대한 답을 [문서 본문]에서 찾을 수 없다면, 억지로 답변을 꾸며내지 말고 "제공된 문서에서 관련 정보를 찾을 수 없습니다."라고 답변하세요.
 
     [문서 본문]
     {context_text}
