@@ -8,6 +8,7 @@ const DOC_TYPE_ICON = {
   scholarship: '🎓',
   notice:      '📢',
   place:       '📍',
+  place_link:  '📍',   // fix #7: n8n은 place_link 사용
 };
 
 const DOC_TYPE_LABEL = {
@@ -16,6 +17,7 @@ const DOC_TYPE_LABEL = {
   scholarship: '장학금',
   notice:      '학사 공지',
   place:       '장소',
+  place_link:  '장소',  // fix #7
 };
 
 const CONFIDENCE_THRESHOLD = 0.8;
@@ -46,7 +48,11 @@ function getDdayClass(d) {
 
 
 function createCardHTML(candidate, rank) {
-  const { doc_type, deadline, submission, evidence_text, confidence, original_image_url } = candidate;
+  const {
+    doc_type, deadline, confidence, evidence_text, original_image_url,
+    submission,           // Python 백엔드
+    required_submission,  // fix #6: n8n Build_Risk_Card는 required_submission 사용
+  } = candidate;
 
   const icon  = DOC_TYPE_ICON[doc_type]  || '📄';
   const label = DOC_TYPE_LABEL[doc_type] || doc_type;
@@ -55,8 +61,13 @@ function createCardHTML(candidate, rank) {
   const ddayText  = formatDday(ddayNum);
   const ddayClass = getDdayClass(ddayNum);
 
-  const deadlineText   = deadline    ? `${deadline} (${ddayText})` : '마감일 정보 없음';
-  const submissionText = submission  || '정보 없음';
+  const deadlineText = deadline ? `${deadline} (${ddayText})` : '마감일 정보 없음';
+
+  // fix #6: required_submission(n8n) 또는 submission(백엔드) 둘 다 처리
+  const submissionRaw  = required_submission || submission;
+  const submissionText = Array.isArray(submissionRaw)
+    ? (submissionRaw.length ? submissionRaw.join(', ') : '정보 없음')
+    : (submissionRaw || '정보 없음');
 
   const warningBadge = (confidence !== undefined && confidence < CONFIDENCE_THRESHOLD)
     ? `<div class="badge-warning">⚠️ 확인 필요</div>` : '';
@@ -101,9 +112,6 @@ function createCardHTML(candidate, rank) {
 function normalizeResponse(raw) {
   if (!raw) return { answer: 'no_answer', reason: 'no_result' };
 
-  // 워크플로우 no_answer 케이스:
-  //   Build_No_Answer  → { status:'no_answer', message, cards:[] }
-  //   Solar no_answer  → { ..., no_answer:true, cards:[] }
   if (
     raw.status === 'no_answer' ||
     raw.answer === 'no_answer' ||
@@ -116,8 +124,8 @@ function normalizeResponse(raw) {
     };
   }
 
-  // 카드 배열: 워크플로우는 'cards' 키로 전달
-  const candidates = (raw.candidates || raw.cards || [])
+  // fix #5: 백엔드 'results' 키 추가
+  const candidates = (raw.candidates || raw.cards || raw.results || [])
     .sort((a, b) => (b.confidence || 0) - (a.confidence || 0))
     .slice(0, 3);
 
