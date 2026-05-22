@@ -187,9 +187,9 @@ async function uploadFiles(files) {
 
       const data = await res.json();
 
-      // 워크플로우 응답에서 doc_type, capture_id 파싱
-      const docType   = data?.doc_type   || data?.capture_record?.doc_type   || 'notice';
-      const captureId = data?.capture_id || data?.capture_record?.capture_id || `img_${Date.now()}`;
+      const resultCard = data?.risk_cards?.[0] || {};
+      const docType   = resultCard.doc_type || 'notice';
+      const captureId = resultCard.capture_id || `img_${Date.now()}`;
 
       addSuccessThumb(file, dataUrl, docType, captureId);
 
