@@ -1,244 +1,241 @@
 // =============================================
-// UPLOAD.JS
-// 업로드 관련 로직
+// UPLOAD.JS — 업로드 관련 로직
 // =============================================
 
-// - 파일 선택 이벤트 처리
-// - drag & drop 이벤트 처리
-// - Dev D webhook으로 이미지 전송
-// - 응답 받아서 상태 배지 업데이트
-//   (처리중 → 완료 or 실패)
-
-
-// =============================================
-// 상수 정의
-// =============================================
-
-// Dev D에게 받은 upload webhook URL로 교체
 const UPLOAD_WEBHOOK_URL = 'http://localhost:5678/webhook/odiduji/upload';
-
-// 허용 파일 타입
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-
-// 최대 파일 크기 (10MB)
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
-
-// 최대 업로드 장수
 const MAX_FILE_COUNT = 30;
 
-// =============================================
-// 상태 배지 업데이트
-// =============================================
+// doc_type 배지 라벨
+const DOC_TYPE_BADGE = {
+  assignment:  '과제',
+  notice:      '학사 공지',
+  scholarship: '장학금',
+  receipt:     '영수증',
+  place:       '장소',
+};
 
-/**
- * 인덱싱 상태 배지 텍스트 + data-status 변경
- * CSS에서 data-status 값에 따라 색상 자동 전환
- *
- * @param {'idle'|'processing'|'indexed'|'failed'} status
- */
+// 에러 사유 배지 라벨
+const ERROR_BADGE = {
+  upload_failed:   '업로드 실패',
+  classify_failed: '분류 실패',
+  extract_failed:  '추출 실패',
+  low_confidence:  '확인 필요',
+  invalid_file:    '파일 오류',
+};
+
+// 성공 아이템 Map: capture_id → { li, file, dataUrl }
+const successItems = new Map();
+
+
+// ── 상태 배지 ──
 function setIndexStatus(status) {
-  const indexStatus = document.getElementById('index-status');
-  const statusText  = document.getElementById('status-text');
-
-  const statusLabel = {
+  const el   = document.getElementById('index-status');
+  const text = document.getElementById('status-text');
+  const labels = {
     idle:       '대기 중',
     processing: '분석 중...',
     indexed:    '인덱싱 완료',
     failed:     '처리 실패',
   };
-
-  indexStatus.dataset.status = status;
-  statusText.textContent     = statusLabel[status] || '대기 중';
+  el.dataset.status = status;
+  text.textContent  = labels[status] || '대기 중';
 }
 
 
-// =============================================
-// 파일 유효성 검사
-// =============================================
+// ── 섹션 표시/숨김 ──
+function updateSections() {
+  const successSection = document.getElementById('success-section');
+  const failSection    = document.getElementById('fail-section');
+  const successGrid    = document.getElementById('success-grid');
+  const failGrid       = document.getElementById('fail-grid');
 
-/**
- * 파일 타입 / 크기 검사
- * @param {File} file
- * @returns {{ valid: boolean, reason: string }}
- */
+  successSection.hidden = successGrid.children.length === 0;
+  failSection.hidden    = failGrid.children.length === 0;
+}
+
+
+// ── 성공 썸네일 추가 ──
+function addSuccessThumb(file, dataUrl, docType, captureId) {
+  const grid = document.getElementById('success-grid');
+
+  const li = document.createElement('li');
+  li.className = 'thumb-item';
+  li.dataset.captureId = captureId;
+
+  const img = document.createElement('img');
+  img.className = 'thumb-item__img';
+  img.src = dataUrl;
+  img.alt = file.name;
+  img.addEventListener('click', () => openModal(dataUrl));
+
+  // doc_type 배지 (왼쪽 상단)
+  const typeBadge = document.createElement('span');
+  typeBadge.className = 'thumb-item__type-badge';
+  typeBadge.textContent = DOC_TYPE_BADGE[docType] || docType;
+
+  // X 삭제 버튼 (오른쪽 상단)
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'thumb-item__remove';
+  removeBtn.textContent = '✕';
+  removeBtn.setAttribute('aria-label', '삭제');
+  removeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    li.remove();
+    successItems.delete(captureId);
+    updateSections();
+  });
+
+  li.appendChild(img);
+  li.appendChild(typeBadge);
+  li.appendChild(removeBtn);
+  grid.appendChild(li);
+
+  successItems.set(captureId, { li, file, dataUrl });
+  updateSections();
+}
+
+
+// ── 실패 썸네일 추가 ──
+function addFailThumb(file, dataUrl, errorType) {
+  const grid = document.getElementById('fail-grid');
+
+  const li = document.createElement('li');
+  li.className = 'thumb-item';
+
+  const img = document.createElement('img');
+  img.className = 'thumb-item__img';
+  img.src = dataUrl;
+  img.alt = file.name;
+
+  const errBadge = document.createElement('span');
+  errBadge.className = 'thumb-item__err-badge';
+  errBadge.textContent = ERROR_BADGE[errorType] || '처리 실패';
+
+  li.appendChild(img);
+  li.appendChild(errBadge);
+  grid.appendChild(li);
+
+  updateSections();
+  return li;
+}
+
+
+// ── 실패 그리드 초기화 (새 업로드 시) ──
+function clearFailGrid() {
+  document.getElementById('fail-grid').innerHTML = '';
+  updateSections();
+}
+
+
+// ── 파일 유효성 검사 ──
 function validateFile(file) {
-  if (!ALLOWED_TYPES.includes(file.type)) {
-    return { valid: false, reason: '이미지 파일만 업로드할 수 있어요 (JPG, PNG, WEBP)' };
-  }
-  if (file.size > MAX_FILE_SIZE) {
-    return { valid: false, reason: '파일 크기는 10MB 이하만 가능해요' };
-  }
+  if (!ALLOWED_TYPES.includes(file.type))
+    return { valid: false, reason: 'invalid_file' };
+  if (file.size > MAX_FILE_SIZE)
+    return { valid: false, reason: 'invalid_file' };
   return { valid: true, reason: '' };
 }
 
 
-// =============================================
-// 파일 목록 썸네일 그리드 UI
-// =============================================
-
-/**
- * 파일을 썸네일 카드로 파일 목록에 추가
- * FileReader로 이미지 미리보기 생성
- * @param {File} file
- * @returns {HTMLElement} li 요소 (상태 업데이트용)
- */
-function addThumbnailItem(file) {
-  const fileList = document.getElementById('file-list');
- 
-  const li = document.createElement('li');
-  li.className = 'file-list__item file-list__item--loading';
- 
-  // 썸네일 이미지
-  const img = document.createElement('img');
-  img.className = 'file-list__thumb';
-  img.alt = file.name;
- 
-  // 파일명 오버레이
-  const name = document.createElement('span');
-  name.className = 'file-list__name';
-  name.textContent = file.name;
- 
-  li.appendChild(img);
-  li.appendChild(name);
-  fileList.appendChild(li);
- 
-  // FileReader로 로컬 이미지 미리보기 생성
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    img.src = e.target.result;
-    li.classList.remove('file-list__item--loading');
-  };
-  reader.readAsDataURL(file);
- 
-  return li;
-}
- 
-/**
- * 파일 목록 초기화
- */
-function clearFileList() {
-  document.getElementById('file-list').innerHTML = '';
+// ── FileReader → dataUrl ──
+function readAsDataUrl(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(e.target.result);
+    reader.readAsDataURL(file);
+  });
 }
 
 
-// =============================================
-// 파일 업로드 전송
-// =============================================
-
-/**
- * 파일 배열을 순서대로 upload webhook으로 전송
- * 각 파일마다 썸네일 먼저 그리고, 완료/실패 배지 업데이트
- * @param {File[]} files
- */
+// ── 파일 업로드 메인 ──
 async function uploadFiles(files) {
   if (!files || files.length === 0) return;
 
-  // 최대 30장 제한
   if (files.length > MAX_FILE_COUNT) {
     alert(`한 번에 최대 ${MAX_FILE_COUNT}장까지 업로드할 수 있어요.\n현재 선택: ${files.length}장`);
     return;
   }
 
-  clearFileList();
+  // 새 업로드 시 실패 그리드만 초기화 (성공은 유지)
+  clearFailGrid();
   setIndexStatus('processing');
 
   let hasError = false;
 
   for (const file of files) {
-
-    // 유효성 검사
     const { valid, reason } = validateFile(file);
+    const dataUrl = await readAsDataUrl(file);
+
     if (!valid) {
-      console.warn(`[upload.js] 파일 거부: ${file.name} — ${reason}`);
-      alert(`${file.name}\n${reason}`);
+      addFailThumb(file, dataUrl, reason);
       hasError = true;
       continue;
     }
 
-    // 썸네일 먼저 화면에 추가 (loading 상태)
-    const li = addThumbnailItem(file);
- 
-    // FormData로 감싸서 webhook에 POST
     try {
       const formData = new FormData();
       formData.append('file', file);
- 
-      const response = await fetch(UPLOAD_WEBHOOK_URL, {
+
+      const res = await fetch(UPLOAD_WEBHOOK_URL, {
         method: 'POST',
         body: formData,
       });
- 
-      if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
-      }
- 
-      // 완료 배지 표시
-      li.classList.add('file-list__item--done');
- 
-    } catch (error) {
-      console.error(`[upload.js] 업로드 실패: ${file.name}`, error);
- 
-      // 실패 배지 표시
-      li.classList.add('file-list__item--error');
+
+      if (!res.ok) throw new Error('upload_failed');
+
+      const data = await res.json();
+
+      // 워크플로우 응답에서 doc_type, capture_id 파싱
+      const docType   = data?.doc_type   || data?.capture_record?.doc_type   || 'notice';
+      const captureId = data?.capture_id || data?.capture_record?.capture_id || `img_${Date.now()}`;
+
+      addSuccessThumb(file, dataUrl, docType, captureId);
+
+    } catch (err) {
+      console.error('[upload.js]', err);
+      const errType = err.message === 'classify_failed' ? 'classify_failed'
+                    : err.message === 'extract_failed'  ? 'extract_failed'
+                    : 'upload_failed';
+      addFailThumb(file, dataUrl, errType);
       hasError = true;
     }
   }
 
-  // 전송 완료 후 배지 업데이트
-  setIndexStatus(hasError ? 'failed' : 'indexed');
+  setIndexStatus(hasError && successItems.size === 0 ? 'failed' : 'indexed');
 }
 
 
-// =============================================
-// 이벤트 등록 — 외부에서 호출하는 초기화 함수
-// =============================================
-
-/**
- * 업로드 영역 이벤트 전체 등록
- * app.js의 init()에서 호출
- */
+// ── 초기화 ──
 function initUpload() {
   const dropZone  = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
 
-  // ── 파일 선택 버튼 ──
   fileInput.addEventListener('change', (e) => {
-    const files = Array.from(e.target.files);
-    uploadFiles(files);
-
-    // 같은 파일 재업로드 가능하도록 input 초기화
+    uploadFiles(Array.from(e.target.files));
     e.target.value = '';
   });
 
-  // drop-zone 클릭 시 파일 선택창 열기
   dropZone.addEventListener('click', (e) => {
-    // label 클릭은 이미 input과 연결되어 있으므로 중복 방지
     if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') return;
     fileInput.click();
   });
 
-
-  // ── drag & drop ──
-
-  // 드래그가 drop-zone 위에 올라왔을 때
   dropZone.addEventListener('dragover', (e) => {
     e.preventDefault();
     dropZone.classList.add('drag-over');
   });
 
-  // 드래그가 drop-zone을 벗어났을 때
   dropZone.addEventListener('dragleave', (e) => {
-    // 자식 요소로 이동하는 경우 제외
     if (dropZone.contains(e.relatedTarget)) return;
     dropZone.classList.remove('drag-over');
   });
 
-  // 파일을 drop-zone에 놓았을 때
   dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
-
-    const files = Array.from(e.dataTransfer.files);
-    uploadFiles(files);
+    uploadFiles(Array.from(e.dataTransfer.files));
   });
+
 }

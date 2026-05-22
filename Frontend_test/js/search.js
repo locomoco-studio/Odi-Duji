@@ -125,7 +125,17 @@ async function sendSearchRequest(query) {
     // ── MOCK (테스트용, 실제 연동 시 아래 주석 해제하고 mock 삭제) ──
     await new Promise(r => setTimeout(r, 700));
 
-    const candidates = MOCK_CANDIDATES[query.trim()] || DEFAULT_MOCK;
+    // 업로드된 이미지 dataUrl 목록 가져오기
+    const uploadedUrls = Array.from(successItems.values()).map(v => v.dataUrl);
+
+    const rawCandidates = MOCK_CANDIDATES[query.trim()] || DEFAULT_MOCK;
+
+    // 각 카드에 업로드된 이미지 순서대로 연결
+    const candidates = rawCandidates.map((c, i) => ({
+      ...c,
+      original_image_url: uploadedUrls[i % uploadedUrls.length] || null,
+    }));
+
     renderCards({ candidates });
 
     // ── 실제 연동 시 아래 코드로 교체 ──
