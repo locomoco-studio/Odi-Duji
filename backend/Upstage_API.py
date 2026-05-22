@@ -128,15 +128,17 @@ def generate_answer(capture_id: int, user_question: str):
         
     context_text = row["extracted_text"]
     
-    # Upstage Solar API 설정
+    # Upstage Solar API 설정 (환경변수 로드)
     api_key = os.getenv("UPSTAGE_API_KEY")
     if not api_key:
         raise HTTPException(status_code=500, detail="서버 환경변수에 Upstage API Key가 설정되지 않았습니다.")
         
-    solar_url = "https://api.upstage.ai/v1/solar/chat/completions"
+    # .env에서 설정을 읽어오되, 없을 경우를 대비한 기본값도 'solar-pro'로 매핑합니다.
+    solar_url = os.getenv("SOLAR_API_URL", "https://api.upstage.ai/v1/solar/chat/completions")
+    solar_model = os.getenv("SOLAR_MODEL_NAME", "solar-pro")
+    
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     
-    # ✨ [수정] 하드코딩된 날짜를 제거하고, 철저히 주어진 컨텍스트 내의 날짜 정보를 파싱하도록 프롬프트 최적화
     prompt = f"""
     당신은 제공된 [문서 본문]의 내용만을 신뢰하여 질문에 답변하는 대학 생활 비서 에이전트입니다.
     
@@ -153,7 +155,7 @@ def generate_answer(capture_id: int, user_question: str):
     """
     
     payload = {
-        "model": "solar-pro",
+        "model": solar_model,  # .env의 지침에 따라 'solar-pro'가 주입됩니다.
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.1
     }
@@ -166,7 +168,6 @@ def generate_answer(capture_id: int, user_question: str):
         return {"capture_id": capture_id, "user_question": user_question, "answer": answer}
     except Exception as e:
         return {"capture_id": capture_id, "user_question": user_question, "answer": f"Solar LLM 연결 중 문제 발생: {str(e)}"}
-
 
 # ==========================================
 # 💬 4. GET /query : 하드코딩을 제거하고 유연성을 높인 통합 질의 핸들러
