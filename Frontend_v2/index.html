@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>어디두지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- ── 헤더 ── -->
+    <header class="header">
+      <div class="header__left">
+        <div class="header__logo">어디두지</div>
+      </div>
+      <div class="header__right">
+        <!-- 알림 아이콘 자리 -->
+        <button class="header__icon-btn" aria-label="알림">🔔</button>
+      </div>
+    </header>
+
+    <!-- ── 탭 ── -->
+    <nav class="tab-bar">
+      <button class="tab-btn tab-btn--active" id="tab-upload" data-tab="upload">
+        이미지 업로드
+      </button>
+      <button class="tab-btn" id="tab-query" data-tab="query">
+        질문하기
+      </button>
+    </nav>
+
+    <main class="main">
+
+      <!-- =============================================
+           탭 1 — 이미지 업로드
+           ============================================= -->
+      <section class="tab-panel" id="panel-upload">
+
+        <!-- drag & drop 영역 -->
+        <div class="drop-zone" id="drop-zone">
+          <div class="drop-zone__icon">🖼️</div>
+          <p class="drop-zone__text">캡처 이미지를 여기에 끌어다 놓거나</p>
+          <label class="btn btn--primary" for="file-input">파일 선택</label>
+          <input type="file" id="file-input" accept="image/*" multiple hidden />
+        </div>
+
+        <!-- 인덱싱 상태 배지 -->
+        <div class="index-status" id="index-status" data-status="idle">
+          <span class="index-status__badge">
+            <span class="index-status__dot"></span>
+            <span id="status-text">대기 중</span>
+          </span>
+        </div>
+
+        <!-- 처리 성공 썸네일 그리드 -->
+        <div class="thumb-section" id="success-section" hidden>
+          <div class="thumb-section__label">처리 성공</div>
+          <ul class="thumb-grid" id="success-grid"></ul>
+        </div>
+
+        <!-- 처리 실패 썸네일 그리드 -->
+        <div class="thumb-section" id="fail-section" hidden>
+          <div class="thumb-section__label thumb-section__label--fail">처리 실패</div>
+          <ul class="thumb-grid" id="fail-grid"></ul>
+        </div>
+
+      </section>
+
+
+      <!-- =============================================
+           탭 2 — 질문하기
+           ============================================= -->
+      <section class="tab-panel tab-panel--hidden" id="panel-query">
+
+        <!-- 검색창 -->
+        <div class="search-bar">
+          <input
+            type="text"
+            class="search-bar__input"
+            id="search-input"
+            placeholder="이번 주 내가 놓치면 안 되는 건 뭐지?"
+          />
+          <button class="btn btn--search" id="search-btn">검색</button>
+        </div>
+
+        <!-- 예시 칩 버튼 -->
+        <div class="chip-group" id="chip-group">
+          <button class="chip" data-query="이번 주 마감 과제">📋 이번 주 마감 과제</button>
+          <button class="chip" data-query="2만 원 이상 영수증">🧾 2만 원 이상 영수증</button>
+          <button class="chip" data-query="장학금 제출물">🎓 장학금 제출물</button>
+        </div>
+
+        <!-- 업로드 전 안내 -->
+        <div class="query-notice" id="query-notice">
+          <div class="query-notice__icon">📂</div>
+          <div class="query-notice__text">먼저 이미지 업로드 탭에서<br/>캡처를 업로드해주세요</div>
+        </div>
+
+        <!-- 결과 카드 목록 -->
+        <div class="card-list" id="card-list"></div>
+
+        <!-- no_answer -->
+        <div class="no-answer" id="no-answer" hidden>
+          <div class="no-answer__icon">🔍</div>
+          <div class="no-answer__title">결과를 찾지 못했어요</div>
+          <div class="no-answer__desc">날짜 범위를 늘리거나 다른 키워드로 검색해보세요</div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div><!-- /.app-wrapper -->
+
+  <!-- 이미지 확대 모달 -->
+  <div class="img-modal" id="img-modal" hidden>
+    <div class="img-modal__backdrop" id="modal-backdrop"></div>
+    <div class="img-modal__content">
+      <button class="img-modal__close" id="modal-close">✕</button>
+      <img class="img-modal__img" id="modal-img" src="" alt="원본 이미지" />
+    </div>
+  </div>
+
+  <script src="js/card.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
