@@ -298,7 +298,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_PARSE_URL || '[https://api.upstage.ai/v1/document-ai/document-parse'}}",
+        "url": "={{$env.UPSTAGE_PARSE_URL || 'https://api.upstage.ai/v1/document-ai/document-parse'}}",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -324,6 +324,21 @@
       "maxTries": 3,
       "waitBetweenTries": 2000,
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Upstage Document Parse 실제 응답: { content: { markdown, html }, elements: [...] }\nconst content = $json.content || {};\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks   = $json.elements || [];\nconst parse_confidence = $json.api?.confidence ?? ($json.usage ? 1.0 : 0.0);\nreturn [{ json: { ...$json, parsed_markdown, layout_blocks, parse_confidence }, binary: $binary }];"
+      },
+      "id": "map-parse-response-0001",
+      "name": "Map_Parse_Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2880,
+        240
+      ],
+      "retryOnFail": false
     },
     {
       "parameters": {
@@ -363,11 +378,11 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_CLASSIFY_URL || '[https://api.upstage.ai/v1/document-ai/document-classify'}}",
+        "url": "={{$env.UPSTAGE_CLASSIFY_URL || 'https://api.upstage.ai/v1/document-ai/document-classify'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,taxonomy:['notice','assignment','scholarship','receipt','place_link','noise']})}}",
+        "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,taxonomy:['notice','assignment','scholarship','receipt','place','noise']})}}",
         "options": {}
       },
       "id": "624fe194-3234-4e41-a121-b84c1cca7ac1",
@@ -421,7 +436,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const t=($json.parsed_markdown||'');let d=$json.doc_type||$json.category||'noise';if(/과제|LMS|제출/.test(t))d='assignment';if(/영수증|결제|금액/.test(t))d='receipt';if(/장학|성적증명서/.test(t))d='scholarship';return[{json:{...$json,doc_type:d,needs_review:!!$json.needs_review},binary:$binary}];"
+        "jsCode": "const t=($json.parsed_markdown||'');let d=$json.doc_type||$json.category||'noise';if(/과제|LMS|제출/.test(t))d='assignment';if(/영수증|결제|금액/.test(t))d='receipt';if(/장학|성적증명서/.test(t))d='scholarship';if(/지도|카카오맵|네이버지도|주소|위치/.test(t))d='place';return[{json:{...$json,doc_type:d,needs_review:!!$json.needs_review},binary:$binary}];"
       },
       "id": "6e6e2889-78d1-4d3b-a37e-581f9a4016da",
       "name": "Guard_DocType_Keywords",
@@ -548,7 +563,7 @@
                 "conditions": [
                   {
                     "id": "1f6685bc-63c1-436c-a374-ce8a247482eb",
-                    "leftValue": "={{$json.doc_type==='place_link'}}",
+                    "leftValue": "={{$json.doc_type==='place'}}",
                     "rightValue": true,
                     "operator": {
                       "type": "boolean",
@@ -560,7 +575,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "place_link"
+              "outputKey": "place"
             },
             {
               "conditions": {
@@ -622,7 +637,7 @@
             {
               "id": "60bce4ed-2c92-43ce-a27e-0a3e9894232a",
               "name": "schema_json",
-              "value": "={{({assignment:['course','deadline','required_submission','action_items','evidence_text'],receipt:['amount','merchant','payment_date','evidence_text'],scholarship:['institution','date_range','required_submission','deadline','evidence_text'],notice:['deadline','institution','action_items','evidence_text'],place_link:['address','url','date_range','evidence_text']})[$json.doc_type]}}",
+              "value": "={{({assignment:['course','deadline','required_submission','action_items','evidence_text'],receipt:['amount','merchant','payment_date','evidence_text'],scholarship:['institution','date_range','required_submission','deadline','evidence_text'],notice:['deadline','institution','action_items','evidence_text'],place:['address','url','date_range','evidence_text']})[$json.doc_type]}}",
               "type": "object"
             }
           ]
@@ -666,7 +681,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_IE_URL || '[https://api.upstage.ai/v1/information-extraction'}}",
+        "url": "={{$env.UPSTAGE_IE_URL || 'https://api.upstage.ai/v1/information-extraction'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
@@ -685,6 +700,21 @@
       "maxTries": 3,
       "waitBetweenTries": 2000,
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Upstage IE 실제 응답: { extracted_fields: { field: { value, confidence, evidence_text } } }\nconst ef = $json.extracted_fields || {};\n\n// 모든 evidence_text 중 가장 긴 것을 대표 근거로 사용\nconst allEvidence = Object.values(ef)\n  .map(f => f?.evidence_text || '')\n  .filter(Boolean)\n  .sort((a, b) => b.length - a.length);\n\n// 전체 confidence 평균\nconst confidences = Object.values(ef).map(f => f?.confidence ?? 1).filter(v => v > 0);\nconst extract_confidence = confidences.length\n  ? confidences.reduce((s, v) => s + v, 0) / confidences.length : 0;\n\nreturn [{ json: {\n  ...$json,\n  deadline:        ef.deadline?.value        || ef.event_date?.value  || null,\n  amount:          ef.amount?.value          || ef.price?.value       || null,\n  title:           ef.title?.value           || $json.title           || null,\n  required_submission: ef.required_submission?.value\n    ? (Array.isArray(ef.required_submission.value)\n        ? ef.required_submission.value\n        : [ef.required_submission.value])\n    : [],\n  evidence_text:   allEvidence[0]            || null,\n  extract_confidence,\n}, binary: $binary }];"
+      },
+      "id": "flatten-ie-response-0002",
+      "name": "Flatten_IE_Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        240
+      ],
+      "retryOnFail": false
     },
     {
       "parameters": {
@@ -889,11 +919,11 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || '[https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "={{JSON.stringify({\n    model: \"solar-pro\",\n    response_format: { type: \"json_object\" },\n    messages: [\n      {\n        role: \"system\",\n        content: `You are a query planner. Given a user's natural language query, return a JSON object with this exact structure:\n  {\n    \"query_intent\": \"string (e.g. 'find_deadline', 'find_amount', 'find_assignment')\",\n    \"filters\": {\n      \"doc_type\": \"string or null (one of: assignment, receipt, scholarship, notice, place_link, null)\",\n      \"date_range\": { \"start\": \"YYYY-MM-DD or null\", \"end\": \"YYYY-MM-DD or null\" },\n      \"keywords\": [\"array of keywords extracted from query\"]\n    },\n    \"sort_by\": \"deadline or amount or uploaded_at (default: deadline)\",\n    \"limit\": 5\n  }\n  Return ONLY valid JSON, no explanation.`\n      },\n      {\n        role: \"user\",\n        content: $json.raw_query || $json.body?.raw_query\n      }\n    ]\n  })}}",
+        "body": "={{JSON.stringify({\n    model: \"solar-pro\",\n    response_format: { type: \"json_object\" },\n    messages: [\n      {\n        role: \"system\",\n        content: `You are a query planner. Given a user's natural language query, return a JSON object with this exact structure:\n  {\n    \"query_intent\": \"string (e.g. 'find_deadline', 'find_amount', 'find_assignment')\",\n    \"filters\": {\n      \"doc_type\": \"string or null (one of: assignment, receipt, scholarship, notice, place, null)\",\n      \"date_range\": { \"start\": \"YYYY-MM-DD or null\", \"end\": \"YYYY-MM-DD or null\" },\n      \"keywords\": [\"array of keywords extracted from query\"]\n    },\n    \"sort_by\": \"deadline or amount or uploaded_at (default: deadline)\",\n    \"limit\": 5\n  }\n  Return ONLY valid JSON, no explanation.`\n      },\n      {\n        role: \"user\",\n        content: $json.raw_query || $json.body?.raw_query\n      }\n    ]\n  })}}",
         "options": {}
       },
       "id": "4a98efe0-535e-4bf4-a38c-b0253740ea76",
@@ -961,7 +991,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const queryPlan = $json.query_plan || $json;\nconst intent = queryPlan.query_intent || '';\nconst filters = queryPlan.filters || {};\nconst sortBy = queryPlan.sort_by || 'deadline';\nconst limit = queryPlan.limit || 5;\n\n// 전체 인덱스 레코드 수집\nconst allRecords = items\n  .map(i => i.json.capture_record || i.json)\n  .filter(r => r.evidence_text && r.doc_type !== 'noise');\n\n// 필터링\nconst filtered = allRecords.filter(r => {\n  // doc_type 필터\n  if (filters.doc_type && r.doc_type !== filters.doc_type) return false;\n\n  // date_range 필터\n  if (filters.date_range?.start || filters.date_range?.end) {\n    const deadline = r.deadline ? new Date(r.deadline) : null;\n    if (!deadline) return false;\n    if (filters.date_range.start && deadline < new Date(filters.date_range.start)) return false;\n    if (filters.date_range.end   && deadline > new Date(filters.date_range.end))   return false;\n  }\n\n  // keywords 필터\n  if (filters.keywords?.length) {\n    const text = [r.evidence_text, r.title, r.doc_type].join(' ').toLowerCase();\n    return filters.keywords.some(k => text.includes(k.toLowerCase()));\n  }\n\n  return true;\n});\n\n// 정렬\nfiltered.sort((a, b) => {\n  if (sortBy === 'deadline') {\n    return (a.deadline || '9999') < (b.deadline || '9999') ? -1 : 1;\n  }\n  if (sortBy === 'amount') {\n    return (Number(b.amount) || 0) - (Number(a.amount) || 0);\n  }\n  return (b.uploaded_at || '') > (a.uploaded_at || '') ? 1 : -1;\n});\n\nconst candidates = filtered.slice(0, limit);\n\nreturn [{ json: { ...$json, candidate_results: candidates } }];"
+        "jsCode": "const queryPlan = $json.query_plan || $json;\nconst intent = queryPlan.query_intent || '';\nconst filters = queryPlan.filters || {};\nconst sortBy = queryPlan.sort_by || 'deadline';\nconst limit = queryPlan.limit || 5;\n\n// 전체 인덱스 레코드 수집\nconst allRecords = items\n  .map(i => i.json.capture_record || i.json)\n  .filter(r => r.evidence_text && r.doc_type !== 'noise');\n\n// 필터링\nconst filtered = allRecords.filter(r => {\n  // doc_type 필터\n  if (filters.doc_type && r.doc_type !== filters.doc_type) return false;\n\n  // date_range 필터\n  if (filters.date_range?.start || filters.date_range?.end) {\n    const deadline = r.deadline ? new Date(r.deadline) : null;\n    if (!deadline) return false;\n    if (filters.date_range.start && deadline < new Date(filters.date_range.start)) return false;\n    if (filters.date_range.end   && deadline > new Date(filters.date_range.end))   return false;\n  }\n\n  // keywords 필터\n  if (filters.keywords?.length) {\n    const text = [r.evidence_text, r.title, r.doc_type].join(' ').toLowerCase();\n    return filters.keywords.some(k => text.includes(k.toLowerCase()));\n  }\n\n  return true;\n});\n\n// 정렬\nfiltered.sort((a, b) => {\n  if (sortBy === 'deadline') {\n    return (a.deadline || '9999') < (b.deadline || '9999') ? -1 : 1;\n  }\n  if (sortBy === 'amount') {\n    return (Number(b.amount) || 0) - (Number(a.amount) || 0);\n  }\n  return (b.uploaded_at || '') > (a.uploaded_at || '') ? -1 : 1;  // fix #10: 최신 먼저\n});\n\nconst candidates = filtered.slice(0, limit);\n\nreturn [{ json: { ...$json, candidate_results: candidates } }];"
       },
       "id": "7de0e5c9-b132-47bf-92d5-ea5f576b3751",
       "name": "Search_Candidates",
@@ -1035,7 +1065,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || '[https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
@@ -1082,7 +1112,7 @@
           "conditions": [
             {
               "id": "fca73e88-f655-41b0-be22-b38bbb2cef92",
-              "leftValue": "={{!!$json.error || !(($json.cited_fields||[]).length || ($json.citations||[]).length)}}",
+              "leftValue": "={{!!$json.error || (!$json.answer && !($json.cards||[]).length)}}",
               "rightValue": true,
               "operator": {
                 "type": "boolean",
@@ -1108,7 +1138,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "return[{json:{response:{status:'success',answer:$json.answer||$json.text||null,cards:$json.candidate_results||[],no_answer:false}}}];"
+        "jsCode": "return[{json:{response:{status:'success',answer:$json.answer||$json.text||null,cards:$json.cards||$json.candidate_results||[],no_answer:false}}}];"
       },
       "id": "944cb46e-505d-40c9-9ef6-b7cf60d89173",
       "name": "Build_Result_Cards",
@@ -1238,7 +1268,13 @@
     },
     "Switch_Ext": {
       "main": [
-        [],
+        [
+          {
+            "node": "Merge_Images",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Merge_Images",
@@ -1350,7 +1386,7 @@
       "main": [
         [
           {
-            "node": "Check_Parse_Error",
+            "node": "Map_Parse_Response",
             "type": "main",
             "index": 0
           }
@@ -1494,7 +1530,7 @@
       "main": [
         [
           {
-            "node": "Check_Extract_Error",
+            "node": "Flatten_IE_Response",
             "type": "main",
             "index": 0
           }
@@ -1761,6 +1797,28 @@
         [
           {
             "node": "Check_Answer_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map_Parse_Response": {
+      "main": [
+        [
+          {
+            "node": "Check_Parse_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten_IE_Response": {
+      "main": [
+        [
+          {
+            "node": "Check_Extract_Error",
             "type": "main",
             "index": 0
           }
