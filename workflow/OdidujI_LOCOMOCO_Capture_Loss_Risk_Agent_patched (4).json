@@ -298,7 +298,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_PARSE_URL || '[https://api.upstage.ai/v1/document-ai/document-parse'}}",
+        "url": "={{$env.UPSTAGE_PARSE_URL || 'https://api.upstage.ai/v1/document-ai/document-parse'}}",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -310,7 +310,16 @@
             }
           ]
         },
-        "options": {}
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "85f94725-85a2-4bf3-b969-229bb7489535",
       "name": "Upstage_Document_Parse",
@@ -324,6 +333,21 @@
       "maxTries": 3,
       "waitBetweenTries": 2000,
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Upstage Document Parse 실제 응답: { content: { markdown, html }, elements: [...] }\nconst content = $json.content || {};\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks   = $json.elements || [];\nconst parse_confidence = $json.api?.confidence ?? ($json.usage ? 1.0 : 0.0);\nreturn [{ json: { ...$json, parsed_markdown, layout_blocks, parse_confidence }, binary: $binary }];"
+      },
+      "id": "map-parse-response-0001",
+      "name": "Map_Parse_Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2880,
+        240
+      ],
+      "retryOnFail": false
     },
     {
       "parameters": {
@@ -363,12 +387,21 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_CLASSIFY_URL || '[https://api.upstage.ai/v1/document-ai/document-classify'}}",
+        "url": "={{$env.UPSTAGE_CLASSIFY_URL || 'https://api.upstage.ai/v1/document-ai/document-classify'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,taxonomy:['notice','assignment','scholarship','receipt','place_link','noise']})}}",
-        "options": {}
+        "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,taxonomy:['notice','assignment','scholarship','receipt','place','noise']})}}",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "624fe194-3234-4e41-a121-b84c1cca7ac1",
       "name": "Upstage_Document_Classify",
@@ -421,7 +454,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const t=($json.parsed_markdown||'');let d=$json.doc_type||$json.category||'noise';if(/과제|LMS|제출/.test(t))d='assignment';if(/영수증|결제|금액/.test(t))d='receipt';if(/장학|성적증명서/.test(t))d='scholarship';if(/지도|카카오맵|네이버지도|주소|위치/.test(t))d='place_link';return[{json:{...$json,doc_type:d,needs_review:!!$json.needs_review},binary:$binary}];"
+        "jsCode": "const t=($json.parsed_markdown||'');let d=$json.doc_type||$json.category||'noise';if(/과제|LMS|제출/.test(t))d='assignment';if(/영수증|결제|금액/.test(t))d='receipt';if(/장학|성적증명서/.test(t))d='scholarship';if(/지도|카카오맵|네이버지도|주소|위치/.test(t))d='place';return[{json:{...$json,doc_type:d,needs_review:!!$json.needs_review},binary:$binary}];"
       },
       "id": "6e6e2889-78d1-4d3b-a37e-581f9a4016da",
       "name": "Guard_DocType_Keywords",
@@ -548,7 +581,7 @@
                 "conditions": [
                   {
                     "id": "1f6685bc-63c1-436c-a374-ce8a247482eb",
-                    "leftValue": "={{$json.doc_type==='place_link'}}",
+                    "leftValue": "={{$json.doc_type==='place'}}",
                     "rightValue": true,
                     "operator": {
                       "type": "boolean",
@@ -560,7 +593,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "place_link"
+              "outputKey": "place"
             },
             {
               "conditions": {
@@ -622,7 +655,7 @@
             {
               "id": "60bce4ed-2c92-43ce-a27e-0a3e9894232a",
               "name": "schema_json",
-              "value": "={{({assignment:['course','deadline','required_submission','action_items','evidence_text'],receipt:['amount','merchant','payment_date','evidence_text'],scholarship:['institution','date_range','required_submission','deadline','evidence_text'],notice:['deadline','institution','action_items','evidence_text'],place_link:['address','url','date_range','evidence_text']})[$json.doc_type]}}",
+              "value": "={{({assignment:['course','deadline','required_submission','action_items','evidence_text'],receipt:['amount','merchant','payment_date','evidence_text'],scholarship:['institution','date_range','required_submission','deadline','evidence_text'],notice:['deadline','institution','action_items','evidence_text'],place:['address','url','date_range','evidence_text']})[$json.doc_type]}}",
               "type": "object"
             }
           ]
@@ -666,12 +699,21 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_IE_URL || '[https://api.upstage.ai/v1/information-extraction'}}",
+        "url": "={{$env.UPSTAGE_IE_URL || 'https://api.upstage.ai/v1/information-extraction'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
         "body": "={{JSON.stringify({parsed_markdown:$json.parsed_markdown,layout_blocks:$json.layout_blocks||[],extract_schema_id:$json.extract_schema_id,schema_json:$json.schema_json,require_evidence_text:true})}}",
-        "options": {}
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "f9b9a0e9-f8f6-4adb-b4a8-5865f2d80c63",
       "name": "Upstage_Information_Extract",
@@ -685,6 +727,21 @@
       "maxTries": 3,
       "waitBetweenTries": 2000,
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Upstage IE 실제 응답: { extracted_fields: { field: { value, confidence, evidence_text } } }\nconst ef = $json.extracted_fields || {};\n\n// 모든 evidence_text 중 가장 긴 것을 대표 근거로 사용\nconst allEvidence = Object.values(ef)\n  .map(f => f?.evidence_text || '')\n  .filter(Boolean)\n  .sort((a, b) => b.length - a.length);\n\n// 전체 confidence 평균\nconst confidences = Object.values(ef).map(f => f?.confidence ?? 1).filter(v => v > 0);\nconst extract_confidence = confidences.length\n  ? confidences.reduce((s, v) => s + v, 0) / confidences.length : 0;\n\nreturn [{ json: {\n  ...$json,\n  deadline:        ef.deadline?.value        || ef.event_date?.value  || null,\n  amount:          ef.amount?.value          || ef.price?.value       || null,\n  title:           ef.title?.value           || $json.title           || null,\n  required_submission: ef.required_submission?.value\n    ? (Array.isArray(ef.required_submission.value)\n        ? ef.required_submission.value\n        : [ef.required_submission.value])\n    : [],\n  evidence_text:   allEvidence[0]            || null,\n  extract_confidence,\n}, binary: $binary }];"
+      },
+      "id": "flatten-ie-response-0002",
+      "name": "Flatten_IE_Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        240
+      ],
+      "retryOnFail": false
     },
     {
       "parameters": {
@@ -889,12 +946,21 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || '[https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
-        "body": "={{JSON.stringify({\n    model: \"solar-pro\",\n    response_format: { type: \"json_object\" },\n    messages: [\n      {\n        role: \"system\",\n        content: `You are a query planner. Given a user's natural language query, return a JSON object with this exact structure:\n  {\n    \"query_intent\": \"string (e.g. 'find_deadline', 'find_amount', 'find_assignment')\",\n    \"filters\": {\n      \"doc_type\": \"string or null (one of: assignment, receipt, scholarship, notice, place_link, null)\",\n      \"date_range\": { \"start\": \"YYYY-MM-DD or null\", \"end\": \"YYYY-MM-DD or null\" },\n      \"keywords\": [\"array of keywords extracted from query\"]\n    },\n    \"sort_by\": \"deadline or amount or uploaded_at (default: deadline)\",\n    \"limit\": 5\n  }\n  Return ONLY valid JSON, no explanation.`\n      },\n      {\n        role: \"user\",\n        content: $json.raw_query || $json.body?.raw_query\n      }\n    ]\n  })}}",
-        "options": {}
+        "body": "={{JSON.stringify({\n    model: \"solar-pro\",\n    response_format: { type: \"json_object\" },\n    messages: [\n      {\n        role: \"system\",\n        content: `You are a query planner. Given a user's natural language query, return a JSON object with this exact structure:\n  {\n    \"query_intent\": \"string (e.g. 'find_deadline', 'find_amount', 'find_assignment')\",\n    \"filters\": {\n      \"doc_type\": \"string or null (one of: assignment, receipt, scholarship, notice, place, null)\",\n      \"date_range\": { \"start\": \"YYYY-MM-DD or null\", \"end\": \"YYYY-MM-DD or null\" },\n      \"keywords\": [\"array of keywords extracted from query\"]\n    },\n    \"sort_by\": \"deadline or amount or uploaded_at (default: deadline)\",\n    \"limit\": 5\n  }\n  Return ONLY valid JSON, no explanation.`\n      },\n      {\n        role: \"user\",\n        content: $json.raw_query || $json.body?.raw_query\n      }\n    ]\n  })}}",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "4a98efe0-535e-4bf4-a38c-b0253740ea76",
       "name": "Solar_Query_Planner",
@@ -1035,12 +1101,21 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{$env.UPSTAGE_SOLAR_URL || '[https://api.upstage.ai/v1/chat/completions'}}",
+        "url": "={{$env.UPSTAGE_SOLAR_URL || 'https://api.upstage.ai/v1/chat/completions'}}",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
         "body": "={{JSON.stringify({\n  model: \"solar-pro\",\n  response_format: { type: \"json_object\" },\n  messages: [\n    {\n      role: \"system\",\n      content: `You are an evidence-based answer generator. Given a user query and candidate records, return a JSON object with this exact structure:\n{\n  \"answer\": \"string (brief natural language answer in Korean)\",\n  \"cited_fields\": [\"array of field names used as evidence\"],\n  \"cards\": [\n    {\n      \"capture_id\": \"string\",\n      \"doc_type\": \"string\",\n      \"deadline\": \"YYYY-MM-DD or null\",\n      \"submission\": \"string or null\",\n      \"evidence_text\": \"string (exact quote from the record that answers the query)\",\n      \"confidence\": 0.0~1.0,\n      \"original_image_url\": \"string or null\"\n    }\n  ],\n  \"no_answer\": false\n}\nOnly include cards where evidence_text directly answers the query.\nIf no card qualifies, return no_answer: true and empty cards array.\nReturn ONLY valid JSON, no explanation.`\n    },\n    {\n      role: \"user\",\n      content: `Query: ${$json.raw_query || $json.body?.raw_query}\n\nCandidates:\n${JSON.stringify($json.candidate_results, null, 2)}`\n    }\n  ]\n})}}",
-        "options": {}
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{'Bearer ' + $env.UPSTAGE_API_KEY}}"
+            }
+          ]
+        }
       },
       "id": "82b17965-ceab-4ab9-86f0-b4a77f2f3e6c",
       "name": "Solar_Evidence_Answer",
@@ -1108,7 +1183,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "return[{json:{response:{status:'success',answer:$json.answer||$json.text||null,cards:$json.candidate_results||[],no_answer:false}}}];"
+        "jsCode": "return[{json:{response:{status:'success',answer:$json.answer||$json.text||null,cards:$json.cards||$json.candidate_results||[],no_answer:false}}}];"
       },
       "id": "944cb46e-505d-40c9-9ef6-b7cf60d89173",
       "name": "Build_Result_Cards",
@@ -1238,7 +1313,13 @@
     },
     "Switch_Ext": {
       "main": [
-        [],
+        [
+          {
+            "node": "Merge_Images",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Merge_Images",
@@ -1350,7 +1431,7 @@
       "main": [
         [
           {
-            "node": "Check_Parse_Error",
+            "node": "Map_Parse_Response",
             "type": "main",
             "index": 0
           }
@@ -1494,7 +1575,7 @@
       "main": [
         [
           {
-            "node": "Check_Extract_Error",
+            "node": "Flatten_IE_Response",
             "type": "main",
             "index": 0
           }
@@ -1761,6 +1842,28 @@
         [
           {
             "node": "Check_Answer_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map_Parse_Response": {
+      "main": [
+        [
+          {
+            "node": "Check_Parse_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flatten_IE_Response": {
+      "main": [
+        [
+          {
+            "node": "Check_Extract_Error",
             "type": "main",
             "index": 0
           }
