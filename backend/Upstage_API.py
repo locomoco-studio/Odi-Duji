@@ -1,4 +1,3 @@
-import os
 import json
 import sqlite3
 from datetime import datetime
@@ -6,12 +5,6 @@ from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 import requests
-
-# 💡 [추가] .env 파일에서 환경변수를 로드하기 위한 라이브러리 임포트
-from dotenv import load_dotenv
-
-# 💡 [추가] 프로젝트 루트 또는 현재 디렉토리의 .env 파일을 읽어 환경변수로 등록합니다.
-load_dotenv()
 
 app = FastAPI(title="AI Pipeline Backend #2")
 
@@ -134,11 +127,8 @@ def generate_answer(capture_id: int, user_question: str):
         
     context_text = row["extracted_text"]
     
-    # 🛠️ [수정] 하드코딩된 API 키를 제거하고 환경변수에서 안전하게 가져옵니다.
-    api_key = os.getenv("UPSTAGE_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=500, detail="서버 환경변수에 Upstage API Key가 설정되지 않았습니다.")
-        
+    # Upstage Solar API 설정
+    api_key = "up_fSlRNKC2B3kNUAwHTzxmopAkRW9QY"
     solar_url = "https://api.upstage.ai/v1/solar/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     
@@ -171,21 +161,56 @@ def generate_answer(capture_id: int, user_question: str):
 
 
 # ==========================================
-# 💬 4. GET /query : 서치 결과를 안전하게 핸들링하는 통합 질의
+# 💬 4. GET /query : 하드코딩을 제거하고 유연성을 높인 통합 질의 핸들러
 # ==========================================
 @app.get("/query")
 def unified_query(user_question: str):
-    # 사용자가 문장으로 길게 쳐도 '데이터' 나 '과제' 같은 핵심 단어 위주로 먼저 서치하게 만듦
-    search_results = search_documents(keyword=user_question)
+    """
+    사용자의 자연어 질문을 분석하여 데이터베이스에서 최적의 문서를 찾아내고,
+    Solar LLM을 통해 답변을 생성하여 검색 결과 리스트와 함께 반환합니다.
+    """
+    # 전처리: 양끝 공백 제거
+    clean_question = user_question.strip()
+    if not clean_question:
+        return {
+            "answer": "질문이 비어 있습니다. 궁금한 점을 입력해 주세요.",
+            "results": []
+        }
+
+    # 🚀 [1차 시도] 입력된 문장 전체를 기반으로 1차 검색 시도
+    print(f"[Query Pipeline] 1차 검색 시도 키워드: '{clean_question}'")
+    search_results = search_documents(keyword=clean_question)
     
-    # 만약 질문 통째로 해서 안 나오면, 단어를 조금 유연하게 쪼개서 재검색 시도
+    # 🚀 [2차 시도] 1차 결과가 없고 문장이 길 경우, 단어별 유연 Fallback 검색 진행
     if not search_results:
-        search_results = search_documents(keyword="데이터 구조론")
+        # 공백 기준으로 단어를 쪼갠 후, 조사나 특수문자 등 노이즈가 섞인 짧은 단어 필터링
+        words = [w for w in clean_question.split() if len(w) > 1]
+        print(f"[Query Pipeline] 1차 검색 실패. 2차 분할 키워드 후보: {words}")
         
+        # 쪼개진 단어들 중 가장 핵심이 될 만한 첫 번째 단어 혹은 주요 키워드로 재검색
+        for word in words:
+            search_results = search_documents(keyword=word)
+            if search_results:
+                print(f"[Query Pipeline] 2차 검색 성공! 매칭 키워드: '{word}'")
+                break  # 유효한 검색 결과를 찾으면 루프 탈출
+
+    # 🚀 [최종 예외 처리] 2차 검색까지 돌렸으나 데이터베이스에 아무것도 없는 경우
     if not search_results:
-        return {"user_question": user_question, "answer": "관련된 문서 정보가 데이터베이스에 존재하지 않습니다."}
+        print(f"[Query Pipeline] 최종 검색 실패. DB 내 관련 문서 없음.")
+        return {
+            "user_question": user_question,
+            "answer": "죄송합니다. 관련된 문서 정보가 데이터베이스에 존재하지 않습니다. 다른 키워드로 검색해 보시겠어요?",
+            "results": []  # 프론트엔드가 크래시 나지 않도록 빈 리스트 구조 유지
+        }
         
+    # 검색된 결과 중 가장 상단(최신순 혹은 매칭 점수가 높은) 문서의 ID 추출
     best_match_id = search_results[0]["capture_id"]
     
-    # 답변 생성 함수 호출
-    return generate_answer(capture_id=best_match_id, user_question=user_question)
+    # Upstage Solar LLM 답변 생성 함수 호출
+    ai_response = generate_answer(capture_id=best_match_id, user_question=user_question)
+    
+    # 프론트엔드 UI(card.js) 렌더링 규격에 맞춰 복합 객체 형태로 최종 반환
+    return {
+        "answer": ai_response["answer"],
+        "results": search_results
+    }
