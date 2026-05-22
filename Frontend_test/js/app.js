@@ -2,6 +2,22 @@
 // APP.JS — 전체 흐름 컨트롤타워
 // =============================================
 
+// ── 이미지 확대 모달 (upload.js, card.js 공용) ──
+function openModal(src) {
+  const modal = document.getElementById('img-modal');
+  const img   = document.getElementById('modal-img');
+  img.src      = src;
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('img-modal').hidden = true;
+  document.getElementById('modal-img').src    = '';
+  document.body.style.overflow = '';
+}
+
+
 // ── 탭 전환 ──
 function initTabs() {
   const tabs   = document.querySelectorAll('.tab-btn');
@@ -11,11 +27,9 @@ function initTabs() {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
 
-      // 탭 활성화
       tabs.forEach(t => t.classList.remove('tab-btn--active'));
       tab.classList.add('tab-btn--active');
 
-      // 패널 전환
       panels.forEach(p => {
         if (p.id === `panel-${target}`) {
           p.classList.remove('tab-panel--hidden');
@@ -36,18 +50,14 @@ function initTabs() {
 
 
 // ── upload.js 상태 연동 ──
+// 인덱싱 완료 시 질문하기 탭이 열려 있어도 안내 메시지 즉시 숨김
 const _originalSetIndexStatus = setIndexStatus;
-
 window.setIndexStatus = function(status) {
   _originalSetIndexStatus(status);
-};
-
-
-// ── search.js 상태 연동 ──
-const _originalSetSearchLoading = setSearchLoading;
-
-window.setSearchLoading = function(isLoading) {
-  _originalSetSearchLoading(isLoading);
+  if (status === 'indexed') {
+    const notice = document.getElementById('query-notice');
+    if (notice) notice.hidden = true;
+  }
 };
 
 
@@ -56,6 +66,10 @@ function init() {
   initTabs();
   initUpload();
   initSearch();
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+
   console.log('[app.js] 초기화 완료');
 }
 

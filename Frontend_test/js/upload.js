@@ -39,8 +39,8 @@ function setIndexStatus(status) {
     indexed:    '인덱싱 완료',
     failed:     '처리 실패',
   };
-  el.dataset.status  = status;
-  text.textContent   = labels[status] || '대기 중';
+  el.dataset.status = status;
+  text.textContent  = labels[status] || '대기 중';
 }
 
 
@@ -64,7 +64,6 @@ function addSuccessThumb(file, dataUrl, docType, captureId) {
   li.className = 'thumb-item';
   li.dataset.captureId = captureId;
 
-  // 썸네일 이미지 (클릭 시 모달)
   const img = document.createElement('img');
   img.className = 'thumb-item__img';
   img.src = dataUrl;
@@ -110,7 +109,6 @@ function addFailThumb(file, dataUrl, errorType) {
   img.src = dataUrl;
   img.alt = file.name;
 
-  // 에러 배지 (오른쪽 상단)
   const errBadge = document.createElement('span');
   errBadge.className = 'thumb-item__err-badge';
   errBadge.textContent = ERROR_BADGE[errorType] || '처리 실패';
@@ -226,22 +224,6 @@ async function uploadFiles(files) {
 }
 
 
-// ── 이미지 확대 모달 ──
-function openModal(src) {
-  const modal = document.getElementById('img-modal');
-  const img   = document.getElementById('modal-img');
-  img.src     = src;
-  modal.hidden = false;
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  document.getElementById('img-modal').hidden = true;
-  document.getElementById('modal-img').src    = '';
-  document.body.style.overflow = '';
-}
-
-
 // ── 초기화 ──
 function initUpload() {
   const dropZone  = document.getElementById('drop-zone');
@@ -273,7 +255,4 @@ function initUpload() {
     uploadFiles(Array.from(e.dataTransfer.files));
   });
 
-  // 모달 닫기
-  document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.getElementById('modal-backdrop').addEventListener('click', closeModal);
 }
