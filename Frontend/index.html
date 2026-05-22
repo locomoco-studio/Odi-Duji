@@ -1,0 +1,167 @@
+<!--
+INDEX.HTML
+화면의 뼈대. 크게 세 구역으로 나뉨
+-->
+
+<!-- 1. 업로드 영역 -->
+<!--   - 파일 선택 버튼 or drag & drop 영역 -->
+<!--   - 인덱싱 상태 배지 (처리중 / 완료 / 실패) -->
+
+<!-- 2. 검색 영역 -->
+<!--   - 텍스트 입력창 -->
+<!--   - 검색 버튼 -->
+<!--   - 예시 질문 칩 버튼 3개 -->
+<!--     (이번 주 마감 과제 / 2만 원 이상 영수증 / 장학금 제출물) -->
+
+<!-- 3. 결과 영역 -->
+<!--   - result card 3개가 들어올 자리 -->
+<!--   - no_answer일 때 보여줄 안내 메시지 자리 -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>어디두지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =============================================
+       INDEX.HTML
+       화면의 뼈대. 크게 세 구역으로 나뉨
+       ============================================= -->
+
+  <div class="app-wrapper">
+
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="header__logo">어디두지</div>
+      <div class="header__sub">캡처 속 마감 · 금액 · 제출물 손실 방지</div>
+    </header>
+
+    <main class="main">
+
+      <!-- =============================================
+           1. 업로드 영역
+           - 파일 선택 버튼 or drag & drop 영역
+           - 인덱싱 상태 배지 (처리중 / 완료 / 실패)
+           ============================================= -->
+      <section class="section upload-section" id="upload-section">
+
+        <div class="section__label">STEP 1 · 캡처 업로드</div>
+
+        <!-- drag & drop 영역 -->
+        <div class="drop-zone" id="drop-zone">
+          <div class="drop-zone__icon">📂</div>
+          <div class="drop-zone__text">
+            캡처 이미지를 여기에 끌어다 놓거나
+          </div>
+          <label class="btn btn--primary" for="file-input">
+            파일 선택
+          </label>
+          <input type="file" id="file-input" accept="image/*" multiple hidden />
+        </div>
+
+        <!-- 인덱싱 상태 배지 -->
+        <!-- 상태: idle / processing / indexed / failed -->
+        <!-- JS에서 data-status 속성을 변경해서 배지 전환 -->
+        <div class="index-status" id="index-status" data-status="idle">
+          <span class="index-status__badge" id="status-badge">
+            <span class="index-status__dot"></span>
+            <span class="index-status__text" id="status-text">대기 중</span>
+          </span>
+        </div>
+
+        <!-- 업로드된 파일 목록 -->
+        <ul class="file-list" id="file-list"></ul>
+
+      </section>
+
+
+      <!-- =============================================
+           2. 검색 영역
+           - 텍스트 입력창
+           - 검색 버튼
+           - 예시 질문 칩 버튼 3개
+             (이번 주 마감 과제 / 2만 원 이상 영수증 / 장학금 제출물)
+           ============================================= -->
+      <section class="section search-section" id="search-section">
+
+        <div class="section__label">STEP 2 · 질문하기</div>
+
+        <!-- 텍스트 입력창 + 검색 버튼 -->
+        <div class="search-bar">
+          <input
+            type="text"
+            class="search-bar__input"
+            id="search-input"
+            placeholder="이번 주 내가 놓치면 안 되는 건 뭐지?"
+          />
+          <button class="btn btn--search" id="search-btn">검색</button>
+        </div>
+
+        <!-- 예시 질문 칩 버튼 3개 -->
+        <div class="chip-group" id="chip-group">
+          <button class="chip" data-query="이번 주 마감 과제">
+            📋 이번 주 마감 과제
+          </button>
+          <button class="chip" data-query="2만 원 이상 영수증">
+            🧾 2만 원 이상 영수증
+          </button>
+          <button class="chip" data-query="장학금 제출물">
+            🎓 장학금 제출물
+          </button>
+        </div>
+
+      </section>
+
+
+      <!-- =============================================
+           3. 결과 영역
+           - result card 3개가 들어올 자리
+           - no_answer일 때 보여줄 안내 메시지 자리
+           ============================================= -->
+      <section class="section result-section" id="result-section">
+
+        <div class="section__label">STEP 3 · 결과</div>
+
+        <!-- result card 3개가 들어올 자리 -->
+        <!-- JS(card.js)가 동적으로 카드를 생성해서 이 안에 삽입 -->
+        <div class="card-list" id="card-list"></div>
+
+        <!-- no_answer일 때 보여줄 안내 메시지 자리 -->
+        <!-- 기본: hidden / no_answer 응답 시 JS에서 visible로 전환 -->
+        <div class="no-answer" id="no-answer" hidden>
+          <div class="no-answer__icon">🔍</div>
+          <div class="no-answer__title">결과를 찾지 못했어요</div>
+          <div class="no-answer__desc">
+            날짜 범위를 늘리거나 다른 키워드로 검색해보세요
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div><!-- /.app-wrapper -->
+
+
+  <!-- =============================================
+       JS 파일 로드 순서
+       card.js → search.js → upload.js → app.js 순으로 로드
+       (app.js가 나머지를 연결하므로 마지막에 로드)
+       ============================================= -->
+  <script src="js/card.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
