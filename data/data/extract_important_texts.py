@@ -115,10 +115,25 @@ if __name__ == "__main__":
         test_result = call_solar_api_for_extraction(sample_text, sample_schema)
         print("테스트 결과:", json.dumps(test_result, ensure_ascii=False, indent=2))
     else:
-        # n8n으로부터 수신한 인자 파싱
-        input_text = sys.argv[1]
+        arg1 = sys.argv[1]
+        arg2 = sys.argv[2]
+        
+        # 🚀 [수정된 부분] OS 인자 길이 제한 우회를 위해 파일 경로 입력 처리 추가
+        # 문서 본문 처리 (파일 경로이면 내용을 읽고, 아니면 텍스트 그대로 사용)
+        if os.path.isfile(arg1):
+            with open(arg1, 'r', encoding='utf-8') as f:
+                input_text = f.read()
+        else:
+            input_text = arg1
+            
         try:
-            input_schema = json.loads(sys.argv[2])
+            # 스키마 처리 (파일 경로이면 JSON 파싱, 아니면 텍스트를 파싱)
+            if os.path.isfile(arg2):
+                with open(arg2, 'r', encoding='utf-8') as f:
+                    input_schema = json.load(f)
+            else:
+                input_schema = json.loads(arg2)
+                
             extracted_json = call_solar_api_for_extraction(input_text, input_schema)
             # n8n 표준 출력을 위해 JSON 한 줄로 프린트
             print(json.dumps(extracted_json, ensure_ascii=False))
