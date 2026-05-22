@@ -7,6 +7,9 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(title="AI Pipeline Backend #2")
 
