@@ -79,8 +79,12 @@ def save_capture_record(record: CaptureRecord):
 
 
 # ==========================================
-# 🔍 2. GET /search : 띄어쓰기 분할 찰떡 검색
+# 🔍 2. GET /search : 띄어쓰기 분할 찰떡 검색 (SQL Injection 방어 적용)
 # ==========================================
+def escape_like_pattern(word: str) -> str:
+    """LIKE 검색 시 와일드카드로 인식되는 특수문자를 이스케이프 처리합니다."""
+    return word.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
 @app.get("/search", response_model=List[Dict[str, Any]])
 def search_documents(keyword: str = Query(..., description="검색할 키워드")):
     conn = sqlite3.connect("pipeline.db")
@@ -91,11 +95,17 @@ def search_documents(keyword: str = Query(..., description="검색할 키워드"
     if not words:
         return []
         
+    # 최대 검색 단어 수 제한 (조건문 폭주 방지)
+    words = words[:5]
+        
     conditions = []
     params = []
     for word in words:
-        conditions.append("(extracted_text LIKE ? OR extracted_data LIKE ?)")
-        search_word = f"%{word}%"
+        # ESCAPE 절 명시 추가
+        conditions.append("(extracted_text LIKE ? ESCAPE '\\' OR extracted_data LIKE ? ESCAPE '\\')")
+        # 입력값 내 %, _, \ 문자 이스케이프 처리
+        escaped_word = escape_like_pattern(word)
+        search_word = f"%{escaped_word}%"
         params.extend([search_word, search_word])
         
     where_clause = " AND ".join(conditions)
