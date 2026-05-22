@@ -4,10 +4,20 @@ import sqlite3
 from datetime import datetime
 from typing import Any, Dict, List
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware # 🚀 추가된 부분: CORS 미들웨어 임포트
 from pydantic import BaseModel
 import requests
 
 app = FastAPI(title="AI Pipeline Backend #2")
+
+# 🚀 추가된 부분: CORS 설정 (프론트엔드 통신 에러 해결)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 데이터베이스 초기화
 def init_db():
