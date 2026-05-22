@@ -19,6 +19,14 @@ async function sendSearchRequest(query) {
 
     if (!res.ok) throw new Error(`서버 오류: ${res.status}`);
     const data = await res.json();
+
+    // 워크플로우 에러 응답 (status:'error') 구분
+    if (data?.status === 'error') {
+      console.error('[search.js] 워크플로우 에러:', data.error_code, data.message);
+      renderCards({ answer: 'no_answer', reason: data.error_code });
+      return;
+    }
+
     renderCards(data);
 
   } catch (err) {

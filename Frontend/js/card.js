@@ -64,7 +64,6 @@ function createCardHTML(candidate, rank) {
   const evidenceHTML = evidence_text
     ? `<div class="result-card__evidence">${evidence_text}</div>` : '';
 
-  // 썸네일: original_image_url 있으면 이미지, 없으면 플레이스홀더
   const thumbInner = original_image_url
     ? `<img class="result-card__thumb-img" src="${original_image_url}" alt="원본"
             onclick="openModal('${original_image_url}')" />
@@ -73,10 +72,7 @@ function createCardHTML(candidate, rank) {
 
   return `
     <div class="result-card" data-rank="${rank}">
-      <!-- 왼쪽: 원본 이미지 썸네일 -->
       <div class="result-card__thumb">${thumbInner}</div>
-
-      <!-- 오른쪽: 내용 -->
       <div class="result-card__body">
         <div class="result-card__top">
           <div class="result-card__type">
@@ -85,17 +81,14 @@ function createCardHTML(candidate, rank) {
           </div>
           <span class="dday ${ddayClass}">${ddayText}</span>
         </div>
-
         <div class="result-card__field">
           <span class="result-card__field-label">마감</span>
           <span class="result-card__field-value">${deadlineText}</span>
         </div>
-
         <div class="result-card__field">
           <span class="result-card__field-label">제출물</span>
           <span class="result-card__field-value">${submissionText}</span>
         </div>
-
         ${evidenceHTML}
         ${warningBadge}
       </div>
@@ -108,7 +101,14 @@ function createCardHTML(candidate, rank) {
 function normalizeResponse(raw) {
   if (!raw) return { answer: 'no_answer', reason: 'no_result' };
 
-  if (raw.status === 'no_answer' || raw.answer === 'no_answer') {
+  // 워크플로우 no_answer 케이스:
+  //   Build_No_Answer  → { status:'no_answer', message, cards:[] }
+  //   Solar no_answer  → { ..., no_answer:true, cards:[] }
+  if (
+    raw.status === 'no_answer' ||
+    raw.answer === 'no_answer' ||
+    raw.no_answer === true
+  ) {
     return {
       answer:     'no_answer',
       reason:     raw.reason     || 'no_result',
@@ -116,7 +116,7 @@ function normalizeResponse(raw) {
     };
   }
 
-  // confidence 높은 순 정렬
+  // 카드 배열: 워크플로우는 'cards' 키로 전달
   const candidates = (raw.candidates || raw.cards || [])
     .sort((a, b) => (b.confidence || 0) - (a.confidence || 0))
     .slice(0, 3);
