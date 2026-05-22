@@ -201,7 +201,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "={{'/static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
+        "fileName": "={{'C:/Users/dietj/Desktop/n8n_해커톤/Odi-Duji/static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
         "options": {}
       },
       "id": "f918c760-5cc9-4a61-a9db-4641ae32997f",
@@ -214,6 +214,30 @@
       ],
       "retryOnFail": false,
       "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sip-001",
+              "name": "source_image_path",
+              "value": "={{'./static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Set_Source_Image_Path",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        -3960,
+        240
+      ]
     },
     {
       "parameters": {
@@ -231,7 +255,7 @@
     },
     {
       "parameters": {
-        "fileSelector": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
+        "fileSelector": "={{'C:/Users/dietj/Desktop/n8n_해커톤/Odi-Duji/data/data/odiduji_index/' + $json.capture_hash + '.json'}}",
         "options": {}
       },
       "id": "2fd44a2a-aff8-452a-99cd-69d730a6d8e1",
@@ -257,7 +281,7 @@
           "conditions": [
             {
               "id": "ccec15ac-9a91-4ab7-8a66-8ea9d63f6505",
-              "leftValue": "={{!!$binary.data || !!$json.cached_record}}",
+              "leftValue": "={{!!$json.cached_record}}",
               "rightValue": true,
               "operator": {
                 "type": "boolean",
@@ -337,7 +361,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Upstage Document Parse 실제 응답: { content: { markdown, html }, elements: [...] }\nconst content = $json.content || {};\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks   = $json.elements || [];\nconst parse_confidence = $json.api?.confidence ?? ($json.usage ? 1.0 : 0.0);\nreturn [{ json: { ...$json, parsed_markdown, layout_blocks, parse_confidence }, binary: $binary }];"
+        "jsCode": "// Upstage Document Parse 실제 응답: { content: { markdown, html }, elements: [...] }\nconst content = $json.content || {};\nconst parsed_markdown = content.markdown || content.html || '';\nconst layout_blocks   = $json.elements || [];\n// parse_confidence: Upstage API 응답에 confidence 필드 없음 → 마크다운 길이 기반 대체\nconst parse_confidence = (parsed_markdown.length > 100) ? 1.0\n  : (parsed_markdown.length > 20) ? 0.6 : 0.2;\nreturn [{ json: { ...$json, parsed_markdown, layout_blocks, parse_confidence }, binary: $binary }];"
       },
       "id": "map-parse-response-0001",
       "name": "Map_Parse_Response",
@@ -829,7 +853,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
+        "fileName": "={{'C:/Users/dietj/Desktop/n8n_해커톤/Odi-Duji/data/data/odiduji_index/' + $json.capture_hash + '.json'}}",
         "options": {}
       },
       "id": "acd1d137-f4af-41c3-a3e6-3946292e0f5f",
@@ -914,7 +938,7 @@
     },
     {
       "parameters": {
-        "fileSelector": "/data/odiduji_index/*.json",
+        "fileSelector": "C:/Users/dietj/.n8n-files/golden_dataset.json",
         "options": {}
       },
       "id": "1f70c3f5-efb9-4ce2-b128-ff088c8042dc",
@@ -1027,7 +1051,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const queryPlan = $json.query_plan || $json;\nconst intent = queryPlan.query_intent || '';\nconst filters = queryPlan.filters || {};\nconst sortBy = queryPlan.sort_by || 'deadline';\nconst limit = queryPlan.limit || 5;\n\n// 전체 인덱스 레코드 수집\nconst allRecords = items\n  .map(i => i.json.capture_record || i.json)\n  .filter(r => r.evidence_text && r.doc_type !== 'noise');\n\n// 필터링\nconst filtered = allRecords.filter(r => {\n  // doc_type 필터\n  if (filters.doc_type && r.doc_type !== filters.doc_type) return false;\n\n  // date_range 필터\n  if (filters.date_range?.start || filters.date_range?.end) {\n    const deadline = r.deadline ? new Date(r.deadline) : null;\n    if (!deadline) return false;\n    if (filters.date_range.start && deadline < new Date(filters.date_range.start)) return false;\n    if (filters.date_range.end   && deadline > new Date(filters.date_range.end))   return false;\n  }\n\n  // keywords 필터\n  if (filters.keywords?.length) {\n    const text = [r.evidence_text, r.title, r.doc_type].join(' ').toLowerCase();\n    return filters.keywords.some(k => text.includes(k.toLowerCase()));\n  }\n\n  return true;\n});\n\n// 정렬\nfiltered.sort((a, b) => {\n  if (sortBy === 'deadline') {\n    return (a.deadline || '9999') < (b.deadline || '9999') ? -1 : 1;\n  }\n  if (sortBy === 'amount') {\n    return (Number(b.amount) || 0) - (Number(a.amount) || 0);\n  }\n  return (b.uploaded_at || '') > (a.uploaded_at || '') ? -1 : 1;  // fix #10: 최신 먼저\n});\n\nconst candidates = filtered.slice(0, limit);\n\nreturn [{ json: { ...$json, candidate_results: candidates } }];"
+        "jsCode": "const queryPlan = $json.query_plan || $json;\nconst intent = queryPlan.query_intent || '';\nconst filters = queryPlan.filters || {};\nconst sortBy = queryPlan.sort_by || 'deadline';\nconst limit = queryPlan.limit || 5;\n\n// golden_dataset 구조: 배열이 items 안에 각 item.json으로 들어옴\n// 각 item은 { image_id, file_name, metadata: {...}, evidence_text: {...} }\nconst allRecords = items.map(i => {\n  const raw = i.json;\n  const meta = raw.metadata || {};\n  const ev = raw.evidence_text || {};\n  // evidence_text(object)를 검색용 string으로 병합\n  const evidenceStr = Object.values(ev).filter(Boolean).join(' ');\n  return {\n    capture_id:   raw.image_id,\n    file_name:    raw.file_name,\n    doc_type:     meta.doc_type,\n    title:        meta.title,\n    deadline:     meta.deadline,\n    amount:       meta.amount,\n    evidence_text: evidenceStr,\n    evidence_obj:  ev,\n    source:       meta.source,\n    location_name: meta.location_name,\n    confidence:   meta.confidence,\n    needs_review: meta.confidence < 0.8,\n  };\n}).filter(r => r.evidence_text && r.doc_type !== 'noise');\n\n// 필터링\nconst filtered = allRecords.filter(r => {\n  if (filters.doc_type && r.doc_type !== filters.doc_type) return false;\n  if (filters.date_range?.start || filters.date_range?.end) {\n    const deadline = r.deadline ? new Date(r.deadline) : null;\n    if (!deadline) return false;\n    if (filters.date_range.start && deadline < new Date(filters.date_range.start)) return false;\n    if (filters.date_range.end   && deadline > new Date(filters.date_range.end))   return false;\n  }\n  if (filters.keywords?.length) {\n    const text = [r.evidence_text, r.title, r.doc_type, r.source].join(' ').toLowerCase();\n    return filters.keywords.some(k => text.includes(k.toLowerCase()));\n  }\n  return true;\n});\n\n// 정렬\nfiltered.sort((a, b) => {\n  if (sortBy === 'deadline') return (a.deadline || '9999') < (b.deadline || '9999') ? -1 : 1;\n  if (sortBy === 'amount')   return (Number(b.amount) || 0) - (Number(a.amount) || 0);\n  return 0;\n});\n\nconst candidates = filtered.slice(0, limit);\nreturn [{ json: { ...$json, candidate_results: candidates } }];"
       },
       "id": "7de0e5c9-b132-47bf-92d5-ea5f576b3751",
       "name": "Search_Candidates",
@@ -1369,7 +1393,7 @@
       "main": [
         [
           {
-            "node": "Compute_Capture_Hash",
+            "node": "Set_Source_Image_Path",
             "type": "main",
             "index": 0
           }
@@ -1864,6 +1888,17 @@
         [
           {
             "node": "Check_Extract_Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set_Source_Image_Path": {
+      "main": [
+        [
+          {
+            "node": "Compute_Capture_Hash",
             "type": "main",
             "index": 0
           }
