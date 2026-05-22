@@ -201,7 +201,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "={{'/static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
+        "fileName": "={{'./static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
         "options": {}
       },
       "id": "f918c760-5cc9-4a61-a9db-4641ae32997f",
@@ -222,7 +222,7 @@
             {
               "id": "sip-001",
               "name": "source_image_path",
-              "value": "={{'/static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
+              "value": "={{'./static/captures/' + $json.capture_id + '.' + (($json.ext==='heic'||$json.ext==='heif')?'jpg':$json.ext)}}",
               "type": "string"
             }
           ]
@@ -255,7 +255,7 @@
     },
     {
       "parameters": {
-        "fileSelector": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
+        "fileSelector": "={{'./data/odiduji_index/' + $json.capture_hash + '.json'}}",
         "options": {}
       },
       "id": "2fd44a2a-aff8-452a-99cd-69d730a6d8e1",
@@ -853,7 +853,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "={{'/data/odiduji_index/' + $json.capture_hash + '.json'}}",
+        "fileName": "={{'./data/odiduji_index/' + $json.capture_hash + '.json'}}",
         "options": {}
       },
       "id": "acd1d137-f4af-41c3-a3e6-3946292e0f5f",
@@ -938,7 +938,7 @@
     },
     {
       "parameters": {
-        "fileSelector": "/data/odiduji_index/*.json",
+        "fileSelector": "./data/odiduji_index/*.json",
         "options": {}
       },
       "id": "1f70c3f5-efb9-4ce2-b128-ff088c8042dc",
